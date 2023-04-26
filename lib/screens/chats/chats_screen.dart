@@ -40,12 +40,18 @@ class _ChatsScreenState extends State<ChatsScreen> {
         BottomNavigationBarItem(icon: Icon(Icons.people), label: "People"),
         BottomNavigationBarItem(icon: Icon(Icons.call), label: "Calls"),
         BottomNavigationBarItem(
-          icon: CircleAvatar(
-            radius: 14,
-            backgroundImage: AssetImage("assets/images/user_2.png"),
+          icon: GestureDetector(
+            onTap: () {
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: ((context) => ProfilePage())));
+            },
+            child: CircleAvatar(
+              radius: 14,
+              backgroundImage: AssetImage("assets/images/user_2.png"),
+            ),
           ),
-          label: "Profile"
-        )
+          label: "Profile",
+        ),
       ],
     );
   }

@@ -1,4 +1,4 @@
-const String host = "http://localhost:5000";
+const String host = "http://10.0.2.2:5000";
 const String loginApi = '$host/api/auth/login';
 const String registerApi = '$host/api/auth/register';
 const String logoutApi = '$host/api/auth/logout';

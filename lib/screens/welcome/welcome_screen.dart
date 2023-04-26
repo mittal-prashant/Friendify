@@ -22,26 +22,32 @@ class WelcomeScreen extends StatelessWidget {
                   ),
             ),
             Spacer(flex: 1),
-            Text(
-              "Connect safely with strangers using our completely secure app. \nJoin now and start chatting with confidence.",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Theme.of(context)
-                    .textTheme
-                    .bodyLarge
-                    .color
-                    .withOpacity(0.64),
+            Container(
+              width: double.infinity,
+              child: FractionallySizedBox(
+                widthFactor: 0.9, // Set the width to 80% of the available width
+                child: Text(
+                  "Connect safely with strangers using our completely secure app. \nJoin now and start chatting with confidence.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        .color
+                        .withOpacity(0.64),
+                  ),
+                ),
               ),
             ),
             Spacer(flex: 3),
             FittedBox(
               child: TextButton(
-                 onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginScreen(),
-                        ),
-                      ),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ),
+                ),
                 child: Row(
                   children: [
                     Text(
