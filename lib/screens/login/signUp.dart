@@ -2,7 +2,6 @@ import 'package:chat/providers/login_provider.dart';
 import 'package:chat/screens/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/screens/login/components/gender_selector.dart';
-import 'package:get/get.dart';
 
 // ignore: missing_required_param
 const snackBar = SnackBar(
@@ -43,7 +42,7 @@ class _SignUpPageState extends State<SignUpPage> {
       print('Gender: $_gender');
 
       bool hasRegistered =
-          await registerUser(_username, _email, _password, _gender);
+          await registerUser(_username, _email, _password, _gender, '');
 
       if (hasRegistered) {
         Navigator.push(
@@ -133,9 +132,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       if (value.isEmpty) {
                         return 'Please enter a password';
                       }
-                      if (value.length < 8) {
-                        return 'Password must be at least 8 characters';
-                      }
+                      // if (value.length < 8) {
+                      //   return 'Password must be at least 8 characters';
+                      // }
                       // if (!value.contains(new RegExp(
                       //     r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$'))) {
                       //   return 'Password should contain at least one uppercase letter, one lowercase letter, one digit, and one special character';
@@ -156,7 +155,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         elevation: 4,
                       ),
                       child: Text(
-                        'Register',
+                        'Continue',
                         style: TextStyle(fontSize: 18),
                       ),
                       onPressed: _submitForm,

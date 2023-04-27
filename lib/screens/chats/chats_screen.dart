@@ -1,6 +1,10 @@
 import 'package:chat/constants.dart';
-import 'package:chat/screens/chats/components/body.dart';
+import 'package:chat/screens/chats/components/chat_body.dart';
 import 'package:flutter/material.dart';
+
+import '../profile/profile_view.dart';
+import 'components/profile_body.dart';
+import 'components/random_body.dart';
 
 class ChatsScreen extends StatefulWidget {
   @override
@@ -8,20 +12,25 @@ class ChatsScreen extends StatefulWidget {
 }
 
 class _ChatsScreenState extends State<ChatsScreen> {
+  String page_title = 'Chats';
   int _selectedIndex = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: Body(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: mainPrimaryColor,
-        child: Icon(
-          Icons.person_add_alt_1,
-          color: Colors.white,
-        ),
-      ),
+      body: _selectedIndex == 0
+          ? Random_Body()
+          : _selectedIndex == 1
+              ? Chat_Body()
+              : Profile_Body(),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+      //   backgroundColor: mainPrimaryColor,
+      //   child: Icon(
+      //     Icons.person_add_alt_1,
+      //     color: Colors.white,
+      //   ),
+      // ),
       bottomNavigationBar: buildBottomNavigationBar(),
     );
   }
@@ -36,14 +45,43 @@ class _ChatsScreenState extends State<ChatsScreen> {
         });
       },
       items: [
-        BottomNavigationBarItem(icon: Icon(Icons.messenger), label: "Chats"),
-        BottomNavigationBarItem(icon: Icon(Icons.people), label: "People"),
-        BottomNavigationBarItem(icon: Icon(Icons.call), label: "Calls"),
         BottomNavigationBarItem(
           icon: GestureDetector(
             onTap: () {
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: ((context) => ProfilePage())));
+              setState(() {
+                _selectedIndex = 0;
+                page_title = "Chats";
+              });
+            },
+            child: CircleAvatar(
+              radius: 14,
+              child: Icon(Icons.chat_bubble),
+            ),
+          ),
+          label: "Chats",
+        ),
+        BottomNavigationBarItem(
+          icon: GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedIndex = 1;
+                page_title = "People";
+              });
+            },
+            child: CircleAvatar(
+              radius: 14,
+              child: Icon(Icons.people),
+            ),
+          ),
+          label: "People",
+        ),
+        BottomNavigationBarItem(
+          icon: GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedIndex = 2;
+                page_title = "Profile";
+              });
             },
             child: CircleAvatar(
               radius: 14,
@@ -59,7 +97,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
   AppBar buildAppBar() {
     return AppBar(
       automaticallyImplyLeading: false,
-      title: Text("Chats"),
+      title: Text(page_title),
       actions: [
         IconButton(
           onPressed: () {},

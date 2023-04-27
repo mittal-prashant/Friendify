@@ -3,15 +3,16 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<bool> registerUser(
-    String username, String email, String password, String gender) async {
+Future<bool> registerUser(String username, String email, String password,
+    String gender, String avatarImage) async {
   final url = Uri.parse(registerApi);
   final headers = {'Content-Type': 'application/json'};
   final body = json.encode({
     'username': username,
     'email': email,
     'password': password,
-    'gender': gender
+    'gender': gender,
+    'avatarImage': avatarImage
   });
   try {
     final response = await http.post(url, headers: headers, body: body);
@@ -47,12 +48,22 @@ Future<bool> loginUser(String username, String password) async {
         final user = responseData['user'];
         final pref = await SharedPreferences.getInstance();
         pref.setBool('isLoggedIn', true);
-        pref.setString('userName', username);
+        pref.setString('username', username);
         pref.setString(
-            'userData', jsonDecode(response.body)['user'].toString());
+            'randUser', jsonDecode(response.body)['user']['random_username']);
         pref.setString('userId', jsonDecode(response.body)['user']['_id']);
+        pref.setString('email', jsonDecode(response.body)['user']['email']);
+        pref.setString('gender', jsonDecode(response.body)['user']['gender']);
+        pref.setBool(
+            'isAvatar', jsonDecode(response.body)['user']['isAvatarImageSet']);
+        pref.setString(
+            'avatarImage', jsonDecode(response.body)['user']['avatarImage']);
+        // pref.setString('friends', jsonDecode(response.body)['user']['friends']);
+        // pref.setString(
+        //     'onlineStatus', jsonDecode(response.body)['user']['onlineStatus']);
+        // pref.setString('__v', jsonDecode(response.body)['user']['__v']);
         // print(pref.getString('userId'));
-        getUserInfo();
+        // getUserInfo();
         print("okk");
         return true;
         // do something with the user object
