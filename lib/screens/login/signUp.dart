@@ -19,6 +19,49 @@ const snackBar = SnackBar(
       seconds: 3), // Set the duration for how long the Snackbar is displayed
 );
 
+class SelectPhotoScreen extends StatelessWidget {
+  final List<String> photos = [
+    'assets/images/user_2.png',
+    'assets/images/user_2.png',
+    'assets/images/user_3.png',
+    'assets/images/user_4.png',
+    'assets/images/user_5.png',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Select Avatar'),
+      ),
+      body: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
+        itemCount: photos.length,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.pop(context, photos[index]);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: AssetImage(photos[index]),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
 class SignUpPage extends StatefulWidget {
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -32,7 +75,7 @@ class _SignUpPageState extends State<SignUpPage> {
   String _gender;
   String _genderError;
 
-  Future<void> _submitForm() async {
+  Future<void> _submitForm(String avatarImage) async {
     if (_formKey.currentState.validate() && _gender != null) {
       _formKey.currentState.save();
 
@@ -41,8 +84,8 @@ class _SignUpPageState extends State<SignUpPage> {
       print('Password: $_password');
       print('Gender: $_gender');
 
-      bool hasRegistered =
-          await registerUser(_username, _email, _password, _gender, '');
+      bool hasRegistered = await registerUser(
+          _username, _email, _password, _gender, avatarImage);
 
       if (hasRegistered) {
         Navigator.push(
@@ -158,7 +201,18 @@ class _SignUpPageState extends State<SignUpPage> {
                         'Continue',
                         style: TextStyle(fontSize: 18),
                       ),
-                      onPressed: _submitForm,
+                      onPressed: () async {
+                        String selectedPhoto =
+                            await showModalBottomSheet<String>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return SelectPhotoScreen();
+                          },
+                        );
+                        if (selectedPhoto != null) {
+                          _submitForm(selectedPhoto);
+                        }
+                      },
                     ),
                   ),
                 ],

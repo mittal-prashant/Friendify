@@ -10,7 +10,11 @@ class Profile_Body extends StatefulWidget {
 
 class _Profile_BodyState extends State<Profile_Body> {
   int _selectedIndex = 2;
-  String user_data = '', username = '', gender = '', email = '';
+  String user_data = '',
+      username = '',
+      gender = '',
+      email = '',
+      avatarImage = '';
 
   @override
   void initState() {
@@ -25,6 +29,7 @@ class _Profile_BodyState extends State<Profile_Body> {
       username = prefs.getString('username');
       user_data = prefs.getString('userData') ?? '';
       gender = prefs.getString('gender');
+      avatarImage = prefs.getString('avatarImage');
       email = prefs.getString('email');
     });
   }
@@ -42,7 +47,7 @@ class _Profile_BodyState extends State<Profile_Body> {
               SizedBox(height: 20),
               CircleAvatar(
                 radius: 80,
-                backgroundImage: AssetImage('assets/images/male.png'),
+                backgroundImage: AssetImage(avatarImage),
               ),
               SizedBox(height: 20),
               Text(
