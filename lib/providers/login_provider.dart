@@ -48,7 +48,82 @@ Future<bool> loginUser(String username, String password) async {
         final pref = await SharedPreferences.getInstance();
         pref.setBool('isLoggedIn', true);
         pref.setString('userName', username);
-        pref.setString('userData', response.body);
+        pref.setString(
+            'userData', jsonDecode(response.body)['user'].toString());
+        pref.setString('userId', jsonDecode(response.body)['user']['_id']);
+        // print(pref.getString('userId'));
+        getUserInfo();
+        print("okk");
+        return true;
+        // do something with the user object
+      } else {
+        final msg = responseData['msg'];
+        print(msg);
+        return false;
+        // handle error
+      }
+    }
+  } catch (error) {
+    print('An error occurred: $error');
+    return false;
+  }
+}
+
+Future<void> logoutUser() async {
+  final pref = await SharedPreferences.getInstance();
+  final id = pref.getString('userId');
+  final url = Uri.parse(logoutApi);
+  final headers = {'Content-Type': 'application/json'};
+  final body = json.encode({'id': id});
+
+  try {
+    final response = await http.post(url, headers: headers, body: body);
+    if (response.statusCode == 200) {
+      // handle successful logout
+      pref.setBool('isLoggedIn', false);
+      pref.remove('userName');
+      pref.remove('userData');
+    } else {
+      // handle non-200 status code
+    }
+  } catch (e) {
+    // handle exception
+    print('An error occurred: $e');
+  }
+}
+
+Future<void> setAvatar(String avatar) async {
+  final pref = await SharedPreferences.getInstance();
+  final id = jsonDecode(pref.getString('userId'));
+  final url = Uri.parse(logoutApi);
+  final headers = {'Content-Type': 'application/json'};
+  final body = json.encode({'id': id, 'avatar': avatar});
+
+  try {
+    final response = await http.post(url, headers: headers, body: body);
+    if (response.statusCode == 200) {
+    } else {}
+  } catch (e) {
+    // handle exception
+    print('An error occurred: $e');
+  }
+}
+
+Future<bool> getUserInfo() async {
+  final url = Uri.parse(getUserInfoApi);
+  final pref = await SharedPreferences.getInstance();
+  final id = pref.getString('userId');
+  final headers = {'Content-Type': 'application/json'};
+  final body = json.encode({'id': id});
+  try {
+    final response = await http.post(url, headers: headers, body: body);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      if (responseData['status'] == true) {
+        final user = responseData;
+        print(user);
+        // okk implement here
         return true;
         // do something with the user object
       } else {

@@ -13,20 +13,19 @@ const snackBar = SnackBar(
   backgroundColor: Colors.red, // Set the background color of the Snackbar
   behavior: SnackBarBehavior.floating, // Set the behavior of the Snackbar
   shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(8)), // Set the border radius of the Snackbar
+    borderRadius: BorderRadius.all(
+        Radius.circular(8)), // Set the border radius of the Snackbar
   ),
-  duration: Duration(seconds: 3), // Set the duration for how long the Snackbar is displayed
+  duration: Duration(
+      seconds: 3), // Set the duration for how long the Snackbar is displayed
 );
 
-
 class SignInPage extends StatefulWidget {
-  
   @override
   _SignInPageState createState() => _SignInPageState();
 }
 
 class _SignInPageState extends State<SignInPage> {
-  
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -42,7 +41,7 @@ class _SignInPageState extends State<SignInPage> {
     if (_formKey.currentState.validate()) {
       String username = _usernameController.text;
       String password = _passwordController.text;
-      bool success = false;
+      bool success = await loginUser(username, password);
 
       if (success) {
         // Get.offAllNamed(AppRoutes.chat);
