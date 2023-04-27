@@ -19,36 +19,69 @@ const snackBar = SnackBar(
       seconds: 3), // Set the duration for how long the Snackbar is displayed
 );
 
-class SelectPhotoScreen extends StatelessWidget {
+class SelectPhotoScreen extends StatefulWidget {
+  @override
+  _SelectPhotoScreenState createState() => _SelectPhotoScreenState();
+}
+
+class _SelectPhotoScreenState extends State<SelectPhotoScreen> {
+  int _selectedIndex = -1;
+
   final List<String> photos = [
     'assets/images/user_2.png',
     'assets/images/user_2.png',
     'assets/images/user_3.png',
     'assets/images/user_4.png',
     'assets/images/user_5.png',
+    'assets/images/user_2.png',
+    'assets/images/user_3.png',
+    'assets/images/user_4.png',
+    'assets/images/user_5.png',
   ];
+
+  void _handlePhotoSelection(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select Avatar'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Select Avatar'),
+            SizedBox(width: 10),
+            ElevatedButton(
+              onPressed: _selectedIndex == -1
+                  ? null
+                  : () {
+                      Navigator.pop(context, photos[_selectedIndex]);
+                    },
+              child: Text('Select'),
+            ),
+          ],
+        ),
       ),
       body: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+          crossAxisCount: 4,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
         ),
         itemCount: photos.length,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
-            onTap: () {
-              Navigator.pop(context, photos[index]);
-            },
+            onTap: () => _handlePhotoSelection(index),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
+                border: _selectedIndex == index
+                    ? Border.all(
+                        color: Theme.of(context).primaryColor, width: 3)
+                    : null,
                 image: DecorationImage(
                   image: AssetImage(photos[index]),
                   fit: BoxFit.cover,
@@ -81,7 +114,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
       print('Username: $_username');
       print('Email: $_email');
-      print('Password: $_password');
       print('Gender: $_gender');
 
       bool hasRegistered = await registerUser(
@@ -210,6 +242,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           },
                         );
                         if (selectedPhoto != null) {
+                          print(selectedPhoto);
                           _submitForm(selectedPhoto);
                         }
                       },
