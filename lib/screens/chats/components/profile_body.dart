@@ -31,6 +31,7 @@ class _Profile_BodyState extends State<Profile_Body> {
       gender = prefs.getString('gender');
       avatarImage = prefs.getString('avatarImage');
       email = prefs.getString('email');
+      print(avatarImage);
     });
   }
 
@@ -45,10 +46,11 @@ class _Profile_BodyState extends State<Profile_Body> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 20),
-              CircleAvatar(
-                radius: 80,
-                backgroundImage: AssetImage(avatarImage),
-              ),
+              if (avatarImage != '')
+                CircleAvatar(
+                  radius: 80,
+                  backgroundImage: AssetImage("$avatarImage"),
+                ),
               SizedBox(height: 20),
               Text(
                 'Gender: ' + gender,

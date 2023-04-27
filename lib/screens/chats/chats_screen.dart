@@ -14,6 +14,14 @@ class ChatsScreen extends StatefulWidget {
 class _ChatsScreenState extends State<ChatsScreen> {
   String page_title = 'Chats';
   int _selectedIndex = 1;
+  bool _showSearch = true;
+
+  void _toggleSearch() {
+    setState(() {
+      _showSearch = !_showSearch;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,14 +31,6 @@ class _ChatsScreenState extends State<ChatsScreen> {
           : _selectedIndex == 1
               ? Chat_Body()
               : Profile_Body(),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {},
-      //   backgroundColor: mainPrimaryColor,
-      //   child: Icon(
-      //     Icons.person_add_alt_1,
-      //     color: Colors.white,
-      //   ),
-      // ),
       bottomNavigationBar: buildBottomNavigationBar(),
     );
   }
@@ -51,6 +51,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
               setState(() {
                 _selectedIndex = 0;
                 page_title = "Chats";
+                _showSearch = false;
               });
             },
             child: CircleAvatar(
@@ -66,6 +67,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
               setState(() {
                 _selectedIndex = 1;
                 page_title = "People";
+                _showSearch = true;
               });
             },
             child: CircleAvatar(
@@ -81,6 +83,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
               setState(() {
                 _selectedIndex = 2;
                 page_title = "Profile";
+                _showSearch = false;
               });
             },
             child: CircleAvatar(
@@ -99,10 +102,11 @@ class _ChatsScreenState extends State<ChatsScreen> {
       automaticallyImplyLeading: false,
       title: Text(page_title),
       actions: [
-        IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.search),
-        )
+        if (_showSearch)
+          IconButton(
+            onPressed: _toggleSearch,
+            icon: Icon(Icons.search),
+          ),
       ],
     );
   }
