@@ -1,11 +1,17 @@
+import 'package:chat/screens/chats/components/profile_body.dart';
+import 'package:chat/screens/login/signIn.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/constants.dart';
 import 'package:chat/models/Chat.dart';
 import 'package:chat/screens/messages/message_screen.dart';
 import 'package:chat/screens/chats/components/chat_card.dart';
 import 'package:chat/components/filled_outline_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import '../../../providers/api_routes.dart';
 
 class Random_Body extends StatefulWidget {
   @override
@@ -15,17 +21,52 @@ class Random_Body extends StatefulWidget {
 class _Random_BodyState extends State<Random_Body> {
   String _foundUser;
   bool _isLoading = false;
+  IO.Socket socket;
+  bool isRoomFilled;
+
+  @override
+  void initState() {
+    super.initState();
+    socket = IO.io(host, <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
+    socket.connect();
+    socket.onConnect(
+      (data) => print("Connected"),
+    );
+    socket.on(
+      'private ack',
+      (data) => {
+        setState(() {
+          print(data['message']);
+          print(data['roomID']);
+          print(data['isfilled']);
+          if (data['isfilled']) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SignInPage(),
+              ),
+            );
+          }
+        })
+      },
+    );
+  }
+
+  void _handlePrivateRoom() async {
+    _isLoading = true;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    socket.emit('privateRoom', prefs.getString('userId'));
+  }
 
   Future<void> _findUser() async {
-    setState(() {
-      _isLoading = true;
-    });
+    await socket.onConnect;
+    await _handlePrivateRoom();
 
-    // Call some asynchronous function to find a user
-    // and wait for its response
-    // String user = await someAsyncFunction();
+    print("okkk");
 
-    // Fake asynchronous call for demonstration purposes
     await Future.delayed(Duration(seconds: 3));
     String user = "John Doe";
 
@@ -57,5 +98,11 @@ class _Random_BodyState extends State<Random_Body> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    socket.dispose();
+    super.dispose();
   }
 }
