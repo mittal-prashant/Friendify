@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:chat/providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../login/login.dart';
 
 class Profile_Body extends StatefulWidget {
   @override
@@ -35,6 +38,18 @@ class _Profile_BodyState extends State<Profile_Body> {
     });
   }
 
+  Future<void> _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoginScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +80,11 @@ class _Profile_BodyState extends State<Profile_Body> {
               Text(
                 'Email: ' + email,
                 style: TextStyle(fontSize: 18),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                child: Text('Logout'),
+                onPressed: () => _logout(),
               ),
             ],
           ),

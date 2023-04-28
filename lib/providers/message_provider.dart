@@ -3,32 +3,26 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<bool> getFriends() async {
+Future<List<dynamic>> getFriends() async {
   final url = Uri.parse(getFriendsApi);
   final pref = await SharedPreferences.getInstance();
-  final id = pref.getString('userId');
+  final senderid = pref.getString('userId');
   final headers = {'Content-Type': 'application/json'};
-  final body = json.encode({'id': id});
+  final body = json.encode({'id': senderid});
   try {
     final response = await http.post(url, headers: headers, body: body);
+    print(response.statusCode);
     if (response.statusCode == 200) {
-      final responseData = jsonDecode(response.body);
-      print(responseData);
-
-      List<dynamic> data = responseData as List<dynamic>;
-      List<Map<String, dynamic>> friendsList = List<Map<String, dynamic>>.from(
-          data.map((user) => Map<String, dynamic>.from(user)));
-
-      final friendsJson = jsonEncode(friendsList);
-      pref.setString('friendsList', friendsJson);
-
-      return true;
+      // final responseData = jsonDecode(response.body);
+      // print(responseData);
+      return jsonDecode(response.body);
     }
   } catch (error) {
     print('An error occurred: $error');
-    return false;
+    return null;
   }
 }
+
 
 Future<bool> sendMessage(String message) async {
   final url = Uri.parse(sendMessageApi);

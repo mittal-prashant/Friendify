@@ -1,4 +1,4 @@
-import 'package:chat/providers/message_provider.dart';
+// import 'package:chat/providers/message_provider.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:chat/models/Chat.dart';
@@ -6,6 +6,9 @@ import 'package:chat/screens/messages/message_screen.dart';
 import 'package:chat/screens/chats/components/chat_card.dart';
 import 'package:chat/components/filled_outline_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../providers/login_provider.dart';
+import '../../../providers/message_provider.dart';
 
 class Chat_Body extends StatefulWidget {
   @override
@@ -43,11 +46,10 @@ class _Chat_BodyState extends State<Chat_Body> {
   }
 
   Future<void> getAllFriends() async {
-    final pref = await SharedPreferences.getInstance();
-    final responseString = pref.getString('friendsList');
+    final responseString = await getFriends();
 
     if (responseString != null) {
-      final List<dynamic> responseData = json.decode(responseString);
+      final List responseData = responseString;
 
       setState(() {
         chatsData = responseData.map((chat) {

@@ -2,7 +2,6 @@ import 'package:chat/constants.dart';
 import 'package:chat/screens/chats/components/chat_body.dart';
 import 'package:flutter/material.dart';
 
-import '../profile/profile_view.dart';
 import 'components/profile_body.dart';
 import 'components/random_body.dart';
 
