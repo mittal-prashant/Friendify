@@ -22,7 +22,7 @@ class _Random_BodyState extends State<Random_Body> {
   String _foundUser;
   bool _isLoading = false;
   IO.Socket socket;
-  bool isRoomFilled;
+  bool isRoomFilled = false;
 
   @override
   void initState() {
@@ -43,12 +43,13 @@ class _Random_BodyState extends State<Random_Body> {
           print(data['roomID']);
           print(data['isfilled']);
           if (data['isfilled']) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SignInPage(),
-              ),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => SignInPage(),
+            //   ),
+            // );
+            isRoomFilled = true;
           }
         })
       },
