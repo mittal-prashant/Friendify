@@ -6,7 +6,7 @@ import 'package:chat/screens/login/components/gender_selector.dart';
 // ignore: missing_required_param
 const snackBar = SnackBar(
   content: Text(
-    'Invalid Usernamer or Password!',
+    'Invalid Username or Password!',
     style: TextStyle(fontSize: 16, color: Colors.white),
   ),
   backgroundColor: Colors.red, // Set the background color of the Snackbar

@@ -1,8 +1,13 @@
 import 'package:chat/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:chat/models/Chat.dart';
 import 'package:chat/screens/messages/components/body.dart';
 
 class MessagesScreen extends StatelessWidget {
+   final Chat chat;
+
+  MessagesScreen({@required this.chat});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,18 +23,18 @@ class MessagesScreen extends StatelessWidget {
         children: [
           BackButton(),
           CircleAvatar(
-            backgroundImage: AssetImage("assets/images/user_2.png"),
+            backgroundImage: AssetImage(chat.image),
           ),
           SizedBox(width: mainDefaultPadding * 0.75),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Shyam",
+                chat.name,
                 style: TextStyle(fontSize: 16),
               ),
               Text(
-                "Active 3m ago",
+                chat.gender,
                 style: TextStyle(fontSize: 12),
               )
             ],
