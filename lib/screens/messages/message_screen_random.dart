@@ -6,7 +6,7 @@ import 'package:chat/screens/chats/components/random_body.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/models/Chat.dart';
 import 'package:chat/screens/messages/components/body.dart';
-// import 'package:chat/screens/messages/components/request_popup.dart';
+import 'package:chat/providers/login_provider.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -47,17 +47,19 @@ class _MessagesScreenRandomState extends State<MessagesScreenRandom> {
     widget.socket.on(
         "requestresponse",
         (data) => {
-              print(data),
-              if (data['senderid'] != widget.user_id)
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return FriendRequestDialog(
-                      onFriendRequestAccepted: _handleFriendRequestAccepted,
-                      onFriendRequestRejected: _handleFriendRequestRejected,
-                    );
-                  },
-                )
+              setState(() {
+                print(data);
+                if (data['senderid'] != widget.user_id) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ResponseDialog(response: data['response']);
+                    },
+                  );
+                }
+
+                if (data['response']) widget.added = true;
+              })
             });
   }
 
@@ -66,7 +68,8 @@ class _MessagesScreenRandomState extends State<MessagesScreenRandom> {
         {'room': widget.roomid, 'from': widget.user_id, 'response': f});
   }
 
-  void _handleFriendRequestAccepted() {
+  void _handleFriendRequestAccepted() async {
+    await addFriend(widget.user_id, widget.strangerId);
     setState(() {
       widget.added = true;
       handlefriendresponse(true);
@@ -260,7 +263,7 @@ class _FriendRequestDialogState extends State<FriendRequestDialog> {
           onPressed: () {
             _rejectFriendRequest();
 
-            Navigator.of(context).pop();
+            // Navigator.of(context).pop();
           },
         ),
         ElevatedButton(
@@ -270,6 +273,29 @@ class _FriendRequestDialogState extends State<FriendRequestDialog> {
             // handleresponse(0);
             _acceptFriendRequest();
 
+            // Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class ResponseDialog extends StatelessWidget {
+  bool response;
+  ResponseDialog({@required this.response});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text("Stranger's response"),
+      content: response
+          ? Text('Stranger has accepted your request')
+          : Text('Stranger has rejected your request'),
+      actions: [
+        ElevatedButton(
+          child: Text('close'),
+          onPressed: () {
             Navigator.of(context).pop();
           },
         ),
