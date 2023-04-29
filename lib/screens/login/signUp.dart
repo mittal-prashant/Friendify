@@ -203,9 +203,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       if (value.isEmpty) {
                         return 'Please enter an email';
                       }
-                      if (!value.endsWith('@iitrpr.ac.in')) {
-                        return 'Please enter a valid IIT Ropar email address';
-                      }
+                      // if (!value.endsWith('@iitrpr.ac.in')) {
+                      //   return 'Please enter a valid IIT Ropar email address';
+                      // }
                       return null;
                     },
                     onSaved: (value) => _email = value,
@@ -233,35 +233,52 @@ class _SignUpPageState extends State<SignUpPage> {
                     onSaved: (value) => _password = value,
                   ),
                   SizedBox(height: 32),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 48,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
+                  (_gender != null)
+                      ? SizedBox(
+                          width: double.infinity,
+                          height: 48,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              elevation: 4,
+                            ),
+                            child: Text(
+                              'Continue',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            onPressed: () async {
+                              String selectedPhoto =
+                                  await showModalBottomSheet<String>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return SelectPhotoScreen();
+                                },
+                              );
+                              if (selectedPhoto != null) {
+                                print(selectedPhoto);
+                                _submitForm(selectedPhoto);
+                              }
+                            },
+                          ),
+                        )
+                      : SizedBox(
+                          width: double.infinity,
+                          height: 48,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              elevation: 4,
+                            ),
+                            child: Text(
+                              'Continue',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ),
                         ),
-                        elevation: 4,
-                      ),
-                      child: Text(
-                        'Continue',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      onPressed: () async {
-                        String selectedPhoto =
-                            await showModalBottomSheet<String>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return SelectPhotoScreen();
-                          },
-                        );
-                        if (selectedPhoto != null) {
-                          print(selectedPhoto);
-                          _submitForm(selectedPhoto);
-                        }
-                      },
-                    ),
-                  ),
                   SizedBox(height: 32),
                 ],
               ),

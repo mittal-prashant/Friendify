@@ -13,7 +13,7 @@ class ChatsScreen extends StatefulWidget {
 
 class _ChatsScreenState extends State<ChatsScreen> {
   String page_title = 'Chats';
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
   bool _showSearch = true;
   String avatarImage = '';
 

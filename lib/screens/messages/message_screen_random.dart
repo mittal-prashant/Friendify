@@ -127,13 +127,10 @@ class _MessagesScreenRandomState extends State<MessagesScreenRandom> {
                 ],
               ),
               rating == 0
-                  ? SnackBarAction(
-                      onPressed: () {
-                      },
-                      label: 'Submit',
-                      textColor: Colors.grey,
+                  ? ElevatedButton(
+                      child: Text('Submit'),
                     )
-                  : SnackBarAction(
+                  : ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                         Navigator.push(
@@ -144,7 +141,7 @@ class _MessagesScreenRandomState extends State<MessagesScreenRandom> {
                         );
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       },
-                      label: 'Submit',
+                      child: Text('Submit'),
                     ),
             ],
           );
