@@ -121,10 +121,8 @@ Future<void> setAvatar(String avatar) async {
   }
 }
 
-Future<bool> getUserInfo() async {
+Future<String> getUserInfo(String id) async {
   final url = Uri.parse(getUserInfoApi);
-  final pref = await SharedPreferences.getInstance();
-  final id = pref.getString('userId');
   final headers = {'Content-Type': 'application/json'};
   final body = json.encode({'id': id});
   try {
@@ -132,22 +130,15 @@ Future<bool> getUserInfo() async {
     print(response.statusCode);
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
-      if (responseData['status'] == true) {
-        final user = responseData;
-        print(user);
-        // okk implement here
-        return true;
-        // do something with the user object
+        final user = responseData['user'];
+        return user;
       } else {
-        final msg = responseData['msg'];
-        print(msg);
-        return false;
-        // handle error
+        return null;
       }
     }
-  } catch (error) {
+   catch (error) {
     print('An error occurred: $error');
-    return false;
+    return null;
   }
 }
 
