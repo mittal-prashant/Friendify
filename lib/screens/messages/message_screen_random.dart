@@ -130,7 +130,7 @@ class _MessagesScreenRandomState extends State<MessagesScreenRandom> {
                   ? SnackBarAction(
                       onPressed: () {
                       },
-                      label: 'Submit ',
+                      label: 'Submit',
                       textColor: Colors.grey,
                     )
                   : SnackBarAction(
