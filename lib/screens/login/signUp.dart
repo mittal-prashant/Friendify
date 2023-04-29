@@ -37,6 +37,18 @@ class _SelectPhotoScreenState extends State<SelectPhotoScreen> {
     'assets/images/user_3.png',
     'assets/images/user_4.png',
     'assets/images/user_5.png',
+    'assets/images/user_2.png',
+    'assets/images/user_3.png',
+    'assets/images/user_5.png',
+    'assets/images/user_2.png',
+    'assets/images/user_6.jpg',
+    'assets/images/user_7.jpg',
+    'assets/images/user_6.jpg',
+    'assets/images/user_7.jpg',
+    'assets/images/user_6.jpg',
+    'assets/images/user_7.jpg',
+    'assets/images/user_6.jpg',
+    'assets/images/user_7.jpg',
   ];
 
   void _handlePhotoSelection(int index) {
@@ -48,50 +60,52 @@ class _SelectPhotoScreenState extends State<SelectPhotoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Select Avatar'),
-            SizedBox(width: 10),
-            ElevatedButton(
-              onPressed: _selectedIndex == -1
-                  ? null
-                  : () {
-                      Navigator.pop(context, photos[_selectedIndex]);
-                    },
-              child: Text('Select'),
-            ),
-          ],
-        ),
-      ),
-      body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-        ),
-        itemCount: photos.length,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () => _handlePhotoSelection(index),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: _selectedIndex == index
-                    ? Border.all(
-                        color: Theme.of(context).primaryColor, width: 3)
-                    : null,
-                image: DecorationImage(
-                  image: AssetImage(photos[index]),
-                  fit: BoxFit.cover,
-                ),
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Select Avatar'),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: _selectedIndex == -1
+                    ? null
+                    : () {
+                        Navigator.pop(context, photos[_selectedIndex]);
+                      },
+                child: Text('Select'),
               ),
+            ],
+          ),
+        ),
+        body: Padding(
+          padding: EdgeInsets.all(10), // set the padding value
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
             ),
-          );
-        },
-      ),
-    );
+            itemCount: photos.length,
+            itemBuilder: (BuildContext context, int index) {
+              return GestureDetector(
+                onTap: () => _handlePhotoSelection(index),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: _selectedIndex == index
+                        ? Border.all(
+                            color: Theme.of(context).primaryColor, width: 3)
+                        : null,
+                    image: DecorationImage(
+                      image: AssetImage(photos[index]),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ));
   }
 }
 
@@ -248,6 +262,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       },
                     ),
                   ),
+                  SizedBox(height: 32),
                 ],
               ),
             ),

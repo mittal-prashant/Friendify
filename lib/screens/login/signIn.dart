@@ -44,7 +44,8 @@ class _SignInPageState extends State<SignInPage> {
       bool success = await loginUser(username, password);
 
       if (success) {
-        // Get.offAllNamed(AppRoutes.chat);
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.of(context).pop(); // Pop current screen
         Navigator.push(
             context, MaterialPageRoute(builder: ((context) => ChatsScreen())));
       } else {
