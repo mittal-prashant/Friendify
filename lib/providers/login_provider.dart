@@ -142,34 +142,30 @@ Future<String> getUserInfo(String id) async {
   }
 }
 
-Future<bool> addFriend() async {
+Future<bool> addFriend(String sender,String receiver) async {
   final url = Uri.parse(addFriendApi);
-  final pref = await SharedPreferences.getInstance();
-  final senderid = pref.getString('userId');
   final headers = {'Content-Type': 'application/json'};
   final body = json
-      .encode({'senderid': senderid, 'receiverid': '644ad31a8ec1933d8b8f5a45'});
+      .encode({'senderid': sender, 'receiverid': receiver});
   try {
     final response = await http.post(url, headers: headers, body: body);
-    print(response.statusCode);
+    // print(response.statusCode);
+    // print(response);
+    //   final responseData = jsonDecode(response.body);
+    //     print(responseData);
+
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
-      if (responseData['status'] == true) {
-        final user = responseData;
-        print(user);
-        // okk implement here
-        return true;
-        // do something with the user object
-      } else {
-        final msg = responseData['msg'];
-        print(msg);
-        return false;
-        // handle error
-      }
+        print(responseData['status']);
+        return responseData['status'];
+    }
+    else 
+    {
+      return null;
     }
   } catch (error) {
     print('An error occurred: $error');
-    return false;
+    return null;
   }
 }
 
