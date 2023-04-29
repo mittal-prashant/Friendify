@@ -9,14 +9,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Body extends StatefulWidget {
   final IO.Socket socket;
   final String roomid;
-  Body({@required this.socket,this.roomid});
+  Body({@required this.socket, this.roomid});
 
   @override
   State<Body> createState() => _BodyState();
 }
 
 class _BodyState extends State<Body> {
-  List<ChatMessage> messages=[];
+  List<ChatMessage> messages = [];
 
   String user_id;
   final _textinputcontroller = TextEditingController();
@@ -24,20 +24,52 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
-    loadData();}
+    loadData();
+
+    widget.socket.on(
+      'newMessage',
+      (data) => {
+        setState(() {
+          String messg = data['message'];
+          bool f = (user_id == data['senderId']);
+          if (!f) {
+            ChatMessage msg = ChatMessage(
+                messageType: ChatMessageType.text,
+                messageStatus: MessageStatus.viewed,
+                isSender: false,
+                text: messg);
+
+            messages.add(msg);
+          }
+        })
+      },
+    );
+  }
+
   @override
   void dispose() {
     _textinputcontroller.dispose();
     super.dispose();
   }
 
-  void handlesend(){
-       widget.socket.emit("sendMessage", {
+  void handlesend() {
+    widget.socket.emit("sendMessage", {
       'room_id': widget.roomid,
       'from': user_id,
       'message': _textinputcontroller.text.toString(),
     });
+    setState(() {
+      ChatMessage msg = ChatMessage(
+          messageType: ChatMessageType.text,
+          messageStatus: MessageStatus.viewed,
+          isSender: true,
+          text: _textinputcontroller.text.toString());
+
+      _textinputcontroller.clear();
+      messages.add(msg);
+    });
   }
+
   Future<void> loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -126,9 +158,7 @@ class _BodyState extends State<Body> {
                         // ),
                         SizedBox(width: mainDefaultPadding / 4),
                         IconButton(
-                          onPressed: () => {
-                            handlesend()
-                          },
+                          onPressed: () => {handlesend()},
                           icon: Icon(
                             Icons.send,
                             color: Theme.of(context)

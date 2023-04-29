@@ -72,7 +72,7 @@ class _Random_BodyState extends State<Random_Body> {
             Navigator.push( // Use pushReplacement to navigate to MessageScreen
               context,
               MaterialPageRoute(
-                builder: (context) => MessagesScreenRandom(strangerId: _stranger, socket: socket,roomid:roomid,), // Pass the socket to MessageScreen
+                builder: (context) => MessagesScreenRandom(strangerId: _stranger, socket: socket,roomid:roomid,user_id: user_id,), // Pass the socket to MessageScreen
               ),
             );
           },
