@@ -95,7 +95,7 @@ class _Profile_BodyState extends State<Profile_Body> {
               ),
               SizedBox(height: 20),
               Text(
-                'Gender: ' + gender,
+                'Gender: ' + (gender == 'male' ? 'Male' : 'Female'),
                 style: TextStyle(fontSize: 18),
               ),
               SizedBox(height: 10),

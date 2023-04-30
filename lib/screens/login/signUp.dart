@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:chat/providers/login_provider.dart';
 import 'package:chat/screens/login/login.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,8 @@ const snackBar = SnackBar(
 );
 
 class SelectPhotoScreen extends StatefulWidget {
+  String gender;
+  SelectPhotoScreen(this.gender) {}
   @override
   _SelectPhotoScreenState createState() => _SelectPhotoScreenState();
 }
@@ -35,41 +39,26 @@ class _SelectPhotoScreenState extends State<SelectPhotoScreen> {
   }
 
   void loadData() async {
-    var api = 'https://avatars.dicebear.com/api/avataaars';
-    var data = <String>[];
-    // for (var i = 0; i < 5; i++) {
-    //   var randomInt = (DateTime.now().millisecondsSinceEpoch / 1000).floor();
-    //   var url = '$api/$randomInt.svg';
-    //   var response = await http.get(Uri.parse(url));
-    //   if (response.statusCode == HttpStatus.ok) {
-    //     print('Request successful');
-    //     var imageBytes = response.bodyBytes;
-    //     var base64Image = base64Encode(imageBytes);
-    //     photos.add(base64Image);
-    //   } else {
-    //     print('Request failed with status: ${response.statusCode}.');
-    //   }
-    // }
-    // print(photos);
+    List<int> data = [];
+    photos.clear();
+    var rng = new Random();
+    for (var i = 0; i < 8; i++) {
+      var randomInt = rng.nextInt(50) + 1;
+      while (data.contains(randomInt)) randomInt = rng.nextInt(50) + 1;
+      data.add(randomInt);
+      print(widget.gender);
+      if (widget.gender == 'male') {
+        photos.add('assets/images/male/M$randomInt.jpg');
+      } else {
+        photos.add('assets/images/female/F$randomInt.jpg');
+      }
+    }
+    print(photos);
   }
 
   int _selectedIndex = -1;
 
-  final List<String> photos = [
-    'assets/images/user_2.png',
-    'assets/images/user_2.png',
-    'assets/images/user_3.png',
-    'assets/images/user_4.png',
-    'assets/images/user_5.png',
-    'assets/images/user_2.png',
-    'assets/images/user_3.png',
-    'assets/images/user_4.png',
-    'assets/images/user_5.png',
-    'assets/images/user_2.png',
-    'assets/images/user_3.png',
-    'assets/images/user_5.png',
-    'assets/images/user_2.png',
-  ];
+  final List<String> photos = [];
 
   void _handlePhotoSelection(int index) {
     setState(() {
@@ -98,7 +87,7 @@ class _SelectPhotoScreenState extends State<SelectPhotoScreen> {
           ),
         ),
         body: Padding(
-          padding: EdgeInsets.all(10), // set the padding value
+          padding: EdgeInsets.all(20), // set the padding value
           child: GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4,
@@ -111,16 +100,17 @@ class _SelectPhotoScreenState extends State<SelectPhotoScreen> {
                 onTap: () => _handlePhotoSelection(index),
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: _selectedIndex == index
-                        ? Border.all(
-                            color: Theme.of(context).primaryColor, width: 3)
-                        : null,
-                    image: DecorationImage(
-                      // image: MemoryImage(base64.decode(photos[index])),
-                      image: AssetImage(photos[index]),
-                      fit: BoxFit.cover,
+                    borderRadius: BorderRadius.circular(100),
+                    border: Border.all(
+                      color: _selectedIndex == index
+                          ? Theme.of(context).primaryColor
+                          : Colors.transparent,
+                      width: 3,
                     ),
+                  ),
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage: AssetImage(photos[index]),
                   ),
                 ),
               );
@@ -274,7 +264,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   await showModalBottomSheet<String>(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return SelectPhotoScreen();
+                                  return SelectPhotoScreen(_gender);
                                 },
                               );
                               if (selectedPhoto != null) {
