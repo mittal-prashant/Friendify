@@ -2,6 +2,9 @@ import 'package:chat/providers/login_provider.dart';
 import 'package:chat/screens/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/screens/login/components/gender_selector.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:io';
 
 // ignore: missing_required_param
 const snackBar = SnackBar(
@@ -25,30 +28,47 @@ class SelectPhotoScreen extends StatefulWidget {
 }
 
 class _SelectPhotoScreenState extends State<SelectPhotoScreen> {
+  @override
+  Future<void> initState() {
+    loadData();
+    super.initState();
+  }
+
+  void loadData() async {
+    var api = 'https://avatars.dicebear.com/api/avataaars';
+    var data = <String>[];
+    for (var i = 0; i < 5; i++) {
+      var randomInt = (DateTime.now().millisecondsSinceEpoch / 1000).floor();
+      var url = '$api/$randomInt.svg';
+      var response = await http.get(Uri.parse(url));
+      if (response.statusCode == HttpStatus.ok) {
+        print('Request successful');
+        var imageBytes = response.bodyBytes;
+        var base64Image = base64Encode(imageBytes);
+        photos.add(base64Image);
+      } else {
+        print('Request failed with status: ${response.statusCode}.');
+      }
+    }
+    // print(photos);
+  }
+
   int _selectedIndex = -1;
 
   final List<String> photos = [
-    'assets/images/user_2.png',
-    'assets/images/user_2.png',
-    'assets/images/user_3.png',
-    'assets/images/user_4.png',
-    'assets/images/user_5.png',
-    'assets/images/user_2.png',
-    'assets/images/user_3.png',
-    'assets/images/user_4.png',
-    'assets/images/user_5.png',
-    'assets/images/user_2.png',
-    'assets/images/user_3.png',
-    'assets/images/user_5.png',
-    'assets/images/user_2.png',
-    'assets/images/user_6.jpg',
-    'assets/images/user_7.jpg',
-    'assets/images/user_6.jpg',
-    'assets/images/user_7.jpg',
-    'assets/images/user_6.jpg',
-    'assets/images/user_7.jpg',
-    'assets/images/user_6.jpg',
-    'assets/images/user_7.jpg',
+    // 'assets/images/user_2.png',
+    // 'assets/images/user_2.png',
+    // 'assets/images/user_3.png',
+    // 'assets/images/user_4.png',
+    // 'assets/images/user_5.png',
+    // 'assets/images/user_2.png',
+    // 'assets/images/user_3.png',
+    // 'assets/images/user_4.png',
+    // 'assets/images/user_5.png',
+    // 'assets/images/user_2.png',
+    // 'assets/images/user_3.png',
+    // 'assets/images/user_5.png',
+    // 'assets/images/user_2.png',
   ];
 
   void _handlePhotoSelection(int index) {
@@ -97,7 +117,7 @@ class _SelectPhotoScreenState extends State<SelectPhotoScreen> {
                             color: Theme.of(context).primaryColor, width: 3)
                         : null,
                     image: DecorationImage(
-                      image: AssetImage(photos[index]),
+                      image: MemoryImage(base64.decode(photos[index])),
                       fit: BoxFit.cover,
                     ),
                   ),
