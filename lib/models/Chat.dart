@@ -1,5 +1,5 @@
 class Chat {
-  final String name, image, email, gender;
+  final String name, image, email, gender,user_id;
   // final bool isActive;
 
 
@@ -8,6 +8,7 @@ class Chat {
     this.image,
     this.email,
     this.gender,
+    this.user_id,
     // this.isActive,
   });
 }

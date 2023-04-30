@@ -1,44 +1,42 @@
 import 'package:chat/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/models/Chat.dart';
-import 'package:chat/screens/messages/components/body.dart';
-import '../../../providers/api_routes.dart';
+import 'package:chat/screens/messages/components/private_body.dart';
+import 'package:chat/screens/messages/components/OfflineMessage.dart';
 
+
+import '../../../providers/api_routes.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 
 class MessagesScreen extends StatefulWidget {
    final Chat chat;
-  
-  MessagesScreen({@required this.chat});
+  IO.Socket socket;
+    List<OfflineMessage> offlinemessages;
+  MessagesScreen({@required this.chat,this.socket,this.offlinemessages});
 
   @override
   State<MessagesScreen> createState() => _MessagesScreenState();
 }
 
 class _MessagesScreenState extends State<MessagesScreen> {
-  IO.Socket socket;
 
     @override
   void initState() {
     super.initState();
     // loadData();
-    socket = IO.io(host, <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': false,
-    });
-    socket.connect();
-    socket.onConnect(
-      (data) => print("Connected"),
-    );
+  
    
   }
 
 
   @override
   Widget build(BuildContext context) {
+    print("messagescreen");
+    // print(widget.offlinemessages);
     return Scaffold(
       appBar: buildAppBar(),
-      body: Body(),
+      body: Body(socket:widget.socket,friendid: widget.chat.user_id,offlinemessages:widget.offlinemessages),
     );
   }
 
@@ -68,10 +66,6 @@ class _MessagesScreenState extends State<MessagesScreen> {
         ],
       ),
       actions: [
-      IconButton(
-        icon: Icon(Icons.local_phone),
-        onPressed: () {},
-      ),
       IconButton(
         icon: Icon(Icons.videocam),
         onPressed: () {},

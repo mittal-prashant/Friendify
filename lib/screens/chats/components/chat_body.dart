@@ -4,11 +4,15 @@ import 'dart:convert';
 import 'package:chat/models/Chat.dart';
 import 'package:chat/screens/messages/message_screen.dart';
 import 'package:chat/screens/chats/components/chat_card.dart';
+import 'package:chat/screens/messages/components/OfflineMessage.dart';
+
 import 'package:chat/components/filled_outline_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../providers/login_provider.dart';
 import '../../../providers/message_provider.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import '../../../providers/api_routes.dart';
 
 class Chat_Body extends StatefulWidget {
   @override
@@ -22,8 +26,9 @@ class _Chat_BodyState extends State<Chat_Body> {
       email = '',
       avatarImage = '',
       user_id = '';
-
+  List<OfflineMessage> offlinemessages;
   List chatsData = [];
+  IO.Socket socket = null;
 
   @override
   void initState() {
@@ -31,6 +36,53 @@ class _Chat_BodyState extends State<Chat_Body> {
     // Load user data from preferences
     loadData();
     getAllFriends();
+    socket = IO.io(host, <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
+  }
+
+  Future<void> handleuser() {
+    print("userid");
+    print(user_id);
+    socket.emit('add-user', {'userId': user_id});
+    socket.on(
+        'offlineMessages',
+        (messages) => {
+              print('offlinemessages here:'),
+              // print(messages),
+              handleofflinemessages(messages.toString()),
+            });
+  }
+
+  void handleofflinemessages(String jsonString) {
+    // Add quotes to the property names and string values
+
+    final modifiedJsonString = jsonString
+        .replaceAll('ashishrajprashantshyam', '"ashishrajprashantshyam"')
+        .replaceAll('prashantrajprashantshyam', '"prashantrajprashantshyam"')
+        .replaceAll('shyamrajprashantshyam', '"shyamrajprashantshyam"');
+
+// print(modifiedJsonString);
+    final parsedJson = jsonDecode(modifiedJsonString.toString());
+    final messagesJson = parsedJson['ashishrajprashantshyam'];
+    setState(() {
+      offlinemessages = messagesJson.map<OfflineMessage>((json) {
+        return OfflineMessage(
+          senderid: json['prashantrajprashantshyam'].toString(),
+          message: json['shyamrajprashantshyam'].toString(),
+        );
+      }).toList();
+    });
+
+    for (OfflineMessage message in offlinemessages) {
+      print(message.senderid);
+      print(message.message);
+    }
+
+    // print(offlinemessages.elementAt(0).senderid);
+
+    // return messages;
   }
 
   Future<void> loadData() async {
@@ -42,7 +94,15 @@ class _Chat_BodyState extends State<Chat_Body> {
       gender = prefs.getString('gender');
       avatarImage = prefs.getString('avatarImage');
       email = prefs.getString('email');
+      // print(user_id);
     });
+    if (socket != null) {
+      socket.connect();
+      socket.onConnect(
+        (data) => print("Connected"),
+      );
+      handleuser();
+    }
   }
 
   Future<void> getAllFriends() async {
@@ -53,9 +113,11 @@ class _Chat_BodyState extends State<Chat_Body> {
 
       setState(() {
         chatsData = responseData.map((chat) {
+          // print(chat.toString());
           return Chat(
             name: chat['username'],
             email: chat['email'],
+            user_id: chat['_id'],
             gender: chat['gender'],
             image: (chat['avatarImage'] == ""
                 ? (chat['gender'] == 'male'
@@ -64,13 +126,16 @@ class _Chat_BodyState extends State<Chat_Body> {
                 : chat['avatarImage']),
           );
         }).toList();
-        print(chatsData);
+        // print(chatsData);
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    print("baap");
+  
+
     return Column(
       children: [
         Expanded(
@@ -82,8 +147,9 @@ class _Chat_BodyState extends State<Chat_Body> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => MessagesScreen(
-                    chat: chatsData[index],
-                  ),
+                      chat: chatsData[index],
+                      socket: socket,
+                      offlinemessages: offlinemessages),
                 ),
               ),
             ),
@@ -92,4 +158,11 @@ class _Chat_BodyState extends State<Chat_Body> {
       ],
     );
   }
+
+  //  @override
+  // void dispose(){
+  //   socket.emit('disconnectprivate',{'userid':user_id});
+
+  //   super.dispose();
+  // }
 }

@@ -128,7 +128,7 @@ class _Random_BodyState extends State<Random_Body> {
       avatarImage = prefs.getString('avatarImage');
       email = prefs.getString('email');
       randomName = prefs.getString('randUser');
-      print(user_id);
+      // print(user_id);
     });
   }
 
