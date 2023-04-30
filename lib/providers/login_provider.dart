@@ -58,6 +58,8 @@ Future<bool> loginUser(String username, String password) async {
             'isAvatar', jsonDecode(response.body)['user']['isAvatarImageSet']);
         pref.setString(
             'avatarImage', jsonDecode(response.body)['user']['avatarImage']);
+        pref.setDouble('rating', jsonDecode(response.body)['user']['rating']);
+        pref.setInt('ratedby', jsonDecode(response.body)['user']['ratedby']);
         // pref.setString('friends', jsonDecode(response.body)['user']['friends']);
         // pref.setString(
         //     'onlineStatus', jsonDecode(response.body)['user']['onlineStatus']);
@@ -177,6 +179,28 @@ Future<bool> setRandomUsername(String randomName) async {
       final responseData = jsonDecode(response.body);
       print(responseData['random_username']);
       pref.setString('randUser', responseData['random_username']);
+    } else {
+      return null;
+    }
+  } catch (error) {
+    print('An error occurred: $error');
+    return null;
+  }
+}
+
+Future<bool> getRating() async {
+  final url = Uri.parse(getRatingApi);
+  final pref = await SharedPreferences.getInstance();
+  final id = pref.getString('userId');
+  final headers = {'Content-Type': 'application/json'};
+  final body = json.encode({'id': id});
+  try {
+    final response = await http.post(url, headers: headers, body: body);
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      print("done");
+      pref.setDouble('rating', responseData['rating']);
+      pref.setInt('ratedby', responseData['ratedby']);
     } else {
       return null;
     }

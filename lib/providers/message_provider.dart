@@ -23,7 +23,6 @@ Future<List<dynamic>> getFriends() async {
   }
 }
 
-
 Future<bool> sendMessage(String message) async {
   final url = Uri.parse(sendMessageApi);
   final pref = await SharedPreferences.getInstance();
@@ -43,6 +42,26 @@ Future<bool> sendMessage(String message) async {
         return false;
         // handle error
       }
+    }
+  } catch (error) {
+    print('An error occurred: $error');
+    return false;
+  }
+}
+
+Future<bool> rateUser(String id, int rating) async {
+  final url = Uri.parse(rateUserApi);
+  final pref = await SharedPreferences.getInstance();
+  final headers = {'Content-Type': 'application/json'};
+  final body = json.encode({'id': id, 'ratingval': rating});
+  try {
+    final response = await http.post(url, headers: headers, body: body);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      // final responseData = jsonDecode(response.body);
+      // print(responseData);
+      print("done");
+      return true;
     }
   } catch (error) {
     print('An error occurred: $error');

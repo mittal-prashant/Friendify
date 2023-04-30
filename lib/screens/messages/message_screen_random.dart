@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:chat/constants.dart';
+import 'package:chat/providers/message_provider.dart';
 import 'package:chat/screens/chats/chats_screen.dart';
 import 'package:chat/screens/chats/components/random_body.dart';
 import 'package:flutter/material.dart';
@@ -132,6 +133,7 @@ class _MessagesScreenRandomState extends State<MessagesScreenRandom> {
                     )
                   : ElevatedButton(
                       onPressed: () {
+                        rateUser(widget.strangerId, rating);
                         Navigator.of(context).pop();
                         Navigator.push(
                           context,

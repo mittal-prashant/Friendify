@@ -130,15 +130,15 @@ class _BodyState extends State<Body> {
                     ),
                     child: Row(
                       children: [
-                        Icon(
-                          Icons.sentiment_satisfied_alt_outlined,
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              .color
-                              .withOpacity(0.64),
-                        ),
-                        SizedBox(width: mainDefaultPadding / 4),
+                        // Icon(
+                        //   Icons.sentiment_satisfied_alt_outlined,
+                        //   color: Theme.of(context)
+                        //       .textTheme
+                        //       .bodyLarge
+                        //       .color
+                        //       .withOpacity(0.64),
+                        // ),
+                        // SizedBox(width: mainDefaultPadding / 4),
                         Expanded(
                           child: TextField(
                             controller: _textinputcontroller,
