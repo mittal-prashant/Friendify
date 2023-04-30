@@ -30,6 +30,21 @@ const snackBar = SnackBar(
       seconds: 3), // Set the duration for how long the Snackbar is displayed
 );
 
+const snackBar1 = SnackBar(
+  content: Text(
+    'Set a Random Username!',
+    style: TextStyle(fontSize: 16, color: Colors.white),
+  ),
+  backgroundColor: Colors.red, // Set the background color of the Snackbar
+  behavior: SnackBarBehavior.floating, // Set the behavior of the Snackbar
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(
+        Radius.circular(8)), // Set the border radius of the Snackbar
+  ),
+  duration: Duration(
+      seconds: 3), // Set the duration for how long the Snackbar is displayed
+);
+
 class Random_Body extends StatefulWidget {
   @override
   _Random_BodyState createState() => _Random_BodyState();
@@ -42,11 +57,13 @@ class _Random_BodyState extends State<Random_Body> {
   String _stranger;
   IO.Socket socket;
   String roomid;
-  String randomName;
   bool isRoomFilled = false;
-  String user_id = '', username = '', gender = '', email = '', avatarImage = '';
-
-  String _selectedUserName = '';
+  String user_id = '',
+      username = '',
+      gender = '',
+      email = '',
+      avatarImage = '',
+      randomName = '';
 
   @override
   void initState() {
@@ -110,6 +127,7 @@ class _Random_BodyState extends State<Random_Body> {
       gender = prefs.getString('gender');
       avatarImage = prefs.getString('avatarImage');
       email = prefs.getString('email');
+      randomName = prefs.getString('randUser');
       print(user_id);
     });
   }
@@ -163,15 +181,16 @@ class _Random_BodyState extends State<Random_Body> {
                         border: InputBorder.none,
                       ),
                       onChanged: (value) {
-                        _selectedUserName = value;
+                        randomName = value;
                       },
+                      controller: TextEditingController(text: randomName),
                     ),
                   ),
                   SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: () {
-                      if (_selectedUserName.length > 4) {
-                        // _getRandomUserName();
+                      if (randomName.length > 4) {
+                        setRandomUsername(randomName);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
@@ -188,7 +207,12 @@ class _Random_BodyState extends State<Random_Body> {
                 children: [
                   if (!_isLoading)
                     ElevatedButton(
-                      onPressed: _findUser,
+                      onPressed: () {
+                        randomName.length < 5
+                            ? ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar1)
+                            : _findUser;
+                      },
                       child: Text('Find User'),
                     ),
                   SizedBox(height: 20),
