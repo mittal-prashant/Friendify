@@ -12,3 +12,4 @@ const String getUserInfoApi = '$host/api/auth/getuserinfo';
 const String sendReqestApi = '$host/api/auth/sendrequest';
 const String getRequestsApi = '$host/api/auth/getrequests';
 const String addFriendApi = '$host/api/auth/addfriend';
+const String setRandomUsernameApi = '$host/api/auth/setrandomusername';

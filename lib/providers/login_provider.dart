@@ -130,23 +130,21 @@ Future<String> getUserInfo(String id) async {
     print(response.statusCode);
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
-        final user = responseData['user'];
-        return user;
-      } else {
-        return null;
-      }
+      final user = responseData['user'];
+      return user;
+    } else {
+      return null;
     }
-   catch (error) {
+  } catch (error) {
     print('An error occurred: $error');
     return null;
   }
 }
 
-Future<bool> addFriend(String sender,String receiver) async {
+Future<bool> addFriend(String sender, String receiver) async {
   final url = Uri.parse(addFriendApi);
   final headers = {'Content-Type': 'application/json'};
-  final body = json
-      .encode({'senderid': sender, 'receiverid': receiver});
+  final body = json.encode({'senderid': sender, 'receiverid': receiver});
   try {
     final response = await http.post(url, headers: headers, body: body);
     // print(response.statusCode);
@@ -156,11 +154,9 @@ Future<bool> addFriend(String sender,String receiver) async {
 
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
-        print(responseData['status']);
-        return responseData['status'];
-    }
-    else 
-    {
+      print(responseData['status']);
+      return responseData['status'];
+    } else {
       return null;
     }
   } catch (error) {
@@ -169,3 +165,23 @@ Future<bool> addFriend(String sender,String receiver) async {
   }
 }
 
+Future<bool> setRandomUsername(String randomName) async {
+  final url = Uri.parse(setRandomUsernameApi);
+  final pref = await SharedPreferences.getInstance();
+  final id = pref.getString('userId');
+  final headers = {'Content-Type': 'application/json'};
+  final body = json.encode({'id': id, 'random_username': randomName});
+  try {
+    final response = await http.post(url, headers: headers, body: body);
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      print(responseData['random_username']);
+      pref.setString('randUser', responseData['random_username']);
+    } else {
+      return null;
+    }
+  } catch (error) {
+    print('An error occurred: $error');
+    return null;
+  }
+}

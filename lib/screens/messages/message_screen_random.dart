@@ -1,4 +1,8 @@
+import 'dart:math';
+
 import 'package:chat/constants.dart';
+import 'package:chat/screens/chats/chats_screen.dart';
+import 'package:chat/screens/chats/components/random_body.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/models/Chat.dart';
 import 'package:chat/screens/messages/components/body.dart';
@@ -88,6 +92,66 @@ class _MessagesScreenRandomState extends State<MessagesScreenRandom> {
         .emit("sendrequest", {'room': widget.roomid, 'from': widget.user_id});
   }
 
+  void showRatingPrompt(BuildContext context) {
+    int rating = 0;
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Text('Rate the user: '),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(
+                      5,
+                      (index) => InkWell(
+                        onTap: () {
+                          setState(() {
+                            rating = index + 1;
+                          });
+                        },
+                        child: Icon(
+                          index < rating
+                              ? Icons.star
+                              : Icons.star_border_outlined,
+                          color: Colors.amber,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              rating == 0
+                  ? ElevatedButton(
+                      child: Text('Submit'),
+                    )
+                  : ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatsScreen(),
+                          ),
+                        );
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      },
+                      child: Text('Submit'),
+                    ),
+            ],
+          );
+        },
+      ),
+      behavior: SnackBarBehavior.floating,
+      duration: Duration(days: 365),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +165,38 @@ class _MessagesScreenRandomState extends State<MessagesScreenRandom> {
       automaticallyImplyLeading: false,
       title: Row(
         children: [
-          BackButton(),
+          BackButton(
+            onPressed: () async {
+              bool shouldPop = await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Are you sure you want to go back?'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('No'),
+                        onPressed: () {
+                          Navigator.of(context).pop(false);
+                        },
+                      ),
+                      TextButton(
+                        child: Text('Yes'),
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pop(); // close the previous dialog
+                          showRatingPrompt(context);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+
+              if (shouldPop == true) {
+                Navigator.of(context).pop();
+              }
+            },
+          ),
           CircleAvatar(
             backgroundImage: AssetImage("assets/images/male.png"),
           ),

@@ -1,6 +1,7 @@
 import 'package:chat/constants.dart';
 import 'package:chat/screens/chats/components/chat_body.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'components/profile_body.dart';
 import 'components/random_body.dart';
@@ -12,8 +13,23 @@ class ChatsScreen extends StatefulWidget {
 
 class _ChatsScreenState extends State<ChatsScreen> {
   String page_title = 'Chats';
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
   bool _showSearch = true;
+  String avatarImage = '';
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  Future<void> loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      avatarImage = prefs.getString('avatarImage');
+    });
+  }
 
   void _toggleSearch() {
     setState(() {
@@ -54,8 +70,12 @@ class _ChatsScreenState extends State<ChatsScreen> {
               });
             },
             child: CircleAvatar(
+              backgroundColor: Colors.transparent,
               radius: 14,
-              child: Icon(Icons.chat_bubble),
+              child: Icon(
+                Icons.chat_bubble,
+                color: Colors.grey,
+              ),
             ),
           ),
           label: "Chats",
@@ -70,8 +90,12 @@ class _ChatsScreenState extends State<ChatsScreen> {
               });
             },
             child: CircleAvatar(
+              backgroundColor: Colors.transparent,
               radius: 14,
-              child: Icon(Icons.people),
+              child: Icon(
+                Icons.people,
+                color: Colors.grey,
+              ),
             ),
           ),
           label: "People",
@@ -85,10 +109,14 @@ class _ChatsScreenState extends State<ChatsScreen> {
                 _showSearch = false;
               });
             },
-            child: CircleAvatar(
-              radius: 14,
-              backgroundImage: AssetImage("assets/images/user_2.png"),
-            ),
+            child: avatarImage != ""
+                ? CircleAvatar(
+                    radius: 14,
+                    backgroundImage: AssetImage(avatarImage),
+                  )
+                : CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                  ),
           ),
           label: "Profile",
         ),

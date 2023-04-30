@@ -15,6 +15,36 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../providers/api_routes.dart';
 
+const snackBar = SnackBar(
+  content: Text(
+    'Random Username Must Be Atleast 5 characters!',
+    style: TextStyle(fontSize: 16, color: Colors.white),
+  ),
+  backgroundColor: Colors.red, // Set the background color of the Snackbar
+  behavior: SnackBarBehavior.floating, // Set the behavior of the Snackbar
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(
+        Radius.circular(8)), // Set the border radius of the Snackbar
+  ),
+  duration: Duration(
+      seconds: 3), // Set the duration for how long the Snackbar is displayed
+);
+
+const snackBar1 = SnackBar(
+  content: Text(
+    'Set a Random Username!',
+    style: TextStyle(fontSize: 16, color: Colors.white),
+  ),
+  backgroundColor: Colors.red, // Set the background color of the Snackbar
+  behavior: SnackBarBehavior.floating, // Set the behavior of the Snackbar
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(
+        Radius.circular(8)), // Set the border radius of the Snackbar
+  ),
+  duration: Duration(
+      seconds: 3), // Set the duration for how long the Snackbar is displayed
+);
+
 class Random_Body extends StatefulWidget {
   @override
   _Random_BodyState createState() => _Random_BodyState();
@@ -28,11 +58,12 @@ class _Random_BodyState extends State<Random_Body> {
   IO.Socket socket;
   String roomid;
   bool isRoomFilled = false;
-    String user_id = '',
+  String user_id = '',
       username = '',
       gender = '',
       email = '',
-      avatarImage = '';
+      avatarImage = '',
+      randomName = '';
 
   @override
   void initState() {
@@ -50,7 +81,7 @@ class _Random_BodyState extends State<Random_Body> {
       'private ack',
       (data) => {
         setState(() {
-          roomid=data['roomID'];
+          roomid = data['roomID'];
           print(data['message']);
           print(data['roomID']);
           print(data['isfilled']);
@@ -68,11 +99,17 @@ class _Random_BodyState extends State<Random_Body> {
           () {
             _user1 = data['user1'];
             _user2 = data['user2'];
-            _stranger = (_user1==user_id?(_user2):(_user1));
-            Navigator.push( // Use pushReplacement to navigate to MessageScreen
+            _stranger = (_user1 == user_id ? (_user2) : (_user1));
+            Navigator.push(
+              // Use pushReplacement to navigate to MessageScreen
               context,
               MaterialPageRoute(
-                builder: (context) => MessagesScreenRandom(strangerId: _stranger, socket: socket,roomid:roomid,user_id: user_id,), // Pass the socket to MessageScreen
+                builder: (context) => MessagesScreenRandom(
+                  strangerId: _stranger,
+                  socket: socket,
+                  roomid: roomid,
+                  user_id: user_id,
+                ), // Pass the socket to MessageScreen
               ),
             );
           },
@@ -80,8 +117,6 @@ class _Random_BodyState extends State<Random_Body> {
       },
     );
   }
-
-
 
   Future<void> loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -92,24 +127,26 @@ class _Random_BodyState extends State<Random_Body> {
       gender = prefs.getString('gender');
       avatarImage = prefs.getString('avatarImage');
       email = prefs.getString('email');
+      randomName = prefs.getString('randUser');
       print(user_id);
     });
   }
 
-
   void _handlePrivateRoom() async {
-    _isLoading = true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     socket.emit('privateRoom', prefs.getString('userId'));
   }
 
   Future<void> _findUser() async {
-    await socket.onConnect;
+    setState(() {
+      _isLoading = true;
+    });
+    await Future.delayed(Duration(seconds: 3));
+
     await _handlePrivateRoom();
 
     print("okkk");
 
-    await Future.delayed(Duration(seconds: 3));
     String user = "John Doe";
 
     setState(() {
@@ -121,23 +158,111 @@ class _Random_BodyState extends State<Random_Body> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (!_isLoading)
-            ElevatedButton(
-              onPressed: _findUser,
-              child: Text('Find User'),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Enter a random user name',
+                        border: InputBorder.none,
+                      ),
+                      onChanged: (value) {
+                        randomName = value;
+                      },
+                      controller: TextEditingController(text: randomName),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (randomName.length > 4) {
+                        setRandomUsername(randomName);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    },
+                    child: Text('Random'),
+                  ),
+                ],
+              ),
             ),
-          SizedBox(height: 20),
-          if (_isLoading)
-            SpinKitFadingCube(
-              color: Colors.blue,
-              size: 50.0,
+            SizedBox(height: 20),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (!_isLoading)
+                    ElevatedButton(
+                      onPressed: () {
+                        randomName.length < 5
+                            ? ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar1)
+                            : _findUser;
+                      },
+                      child: Text('Find User'),
+                    ),
+                  SizedBox(height: 20),
+                  if (_isLoading)
+                    SpinKitFadingCube(
+                      color: Theme.of(context).primaryColor,
+                      size: 50.0,
+                    ),
+                  if (!_isLoading && _foundUser == null)
+                    Text(
+                      'No user found.',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.red,
+                      ),
+                    ),
+                  if (!_isLoading && _foundUser != null)
+                    Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Theme.of(context).primaryColor,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            'User Details',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Name: ${_foundUser}',
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
             ),
-          if (!_isLoading)
-            if (_foundUser != null) Text('Found user: $_foundUser'),
-        ],
+          ],
+        ),
       ),
     );
   }
