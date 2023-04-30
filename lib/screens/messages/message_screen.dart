@@ -2,11 +2,37 @@ import 'package:chat/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/models/Chat.dart';
 import 'package:chat/screens/messages/components/body.dart';
+import '../../../providers/api_routes.dart';
 
-class MessagesScreen extends StatelessWidget {
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+class MessagesScreen extends StatefulWidget {
    final Chat chat;
-
+  
   MessagesScreen({@required this.chat});
+
+  @override
+  State<MessagesScreen> createState() => _MessagesScreenState();
+}
+
+class _MessagesScreenState extends State<MessagesScreen> {
+  IO.Socket socket;
+
+    @override
+  void initState() {
+    super.initState();
+    // loadData();
+    socket = IO.io(host, <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
+    socket.connect();
+    socket.onConnect(
+      (data) => print("Connected"),
+    );
+   
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +49,18 @@ class MessagesScreen extends StatelessWidget {
         children: [
           BackButton(),
           CircleAvatar(
-            backgroundImage: AssetImage(chat.image),
+            backgroundImage: AssetImage(widget.chat.image),
           ),
           SizedBox(width: mainDefaultPadding * 0.75),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                chat.name,
+                widget.chat.name,
                 style: TextStyle(fontSize: 16),
               ),
               Text(
-                chat.gender,
+                widget.chat.gender,
                 style: TextStyle(fontSize: 12),
               )
             ],

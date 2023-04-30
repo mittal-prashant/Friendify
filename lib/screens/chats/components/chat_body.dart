@@ -64,6 +64,7 @@ class _Chat_BodyState extends State<Chat_Body> {
                 : chat['avatarImage']),
           );
         }).toList();
+        print(chatsData);
       });
     }
   }
