@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
             ? Scaffold(body: Center(child: CircularProgressIndicator()))
             : snapshot.hasData && snapshot.data == true
                 ? ChatsScreen()
-                : WelcomeScreen(),
+                : LoginScreen(),
       ),
     );
   }

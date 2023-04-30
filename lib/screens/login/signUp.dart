@@ -37,38 +37,38 @@ class _SelectPhotoScreenState extends State<SelectPhotoScreen> {
   void loadData() async {
     var api = 'https://avatars.dicebear.com/api/avataaars';
     var data = <String>[];
-    for (var i = 0; i < 5; i++) {
-      var randomInt = (DateTime.now().millisecondsSinceEpoch / 1000).floor();
-      var url = '$api/$randomInt.svg';
-      var response = await http.get(Uri.parse(url));
-      if (response.statusCode == HttpStatus.ok) {
-        print('Request successful');
-        var imageBytes = response.bodyBytes;
-        var base64Image = base64Encode(imageBytes);
-        photos.add(base64Image);
-      } else {
-        print('Request failed with status: ${response.statusCode}.');
-      }
-    }
+    // for (var i = 0; i < 5; i++) {
+    //   var randomInt = (DateTime.now().millisecondsSinceEpoch / 1000).floor();
+    //   var url = '$api/$randomInt.svg';
+    //   var response = await http.get(Uri.parse(url));
+    //   if (response.statusCode == HttpStatus.ok) {
+    //     print('Request successful');
+    //     var imageBytes = response.bodyBytes;
+    //     var base64Image = base64Encode(imageBytes);
+    //     photos.add(base64Image);
+    //   } else {
+    //     print('Request failed with status: ${response.statusCode}.');
+    //   }
+    // }
     // print(photos);
   }
 
   int _selectedIndex = -1;
 
   final List<String> photos = [
-    // 'assets/images/user_2.png',
-    // 'assets/images/user_2.png',
-    // 'assets/images/user_3.png',
-    // 'assets/images/user_4.png',
-    // 'assets/images/user_5.png',
-    // 'assets/images/user_2.png',
-    // 'assets/images/user_3.png',
-    // 'assets/images/user_4.png',
-    // 'assets/images/user_5.png',
-    // 'assets/images/user_2.png',
-    // 'assets/images/user_3.png',
-    // 'assets/images/user_5.png',
-    // 'assets/images/user_2.png',
+    'assets/images/user_2.png',
+    'assets/images/user_2.png',
+    'assets/images/user_3.png',
+    'assets/images/user_4.png',
+    'assets/images/user_5.png',
+    'assets/images/user_2.png',
+    'assets/images/user_3.png',
+    'assets/images/user_4.png',
+    'assets/images/user_5.png',
+    'assets/images/user_2.png',
+    'assets/images/user_3.png',
+    'assets/images/user_5.png',
+    'assets/images/user_2.png',
   ];
 
   void _handlePhotoSelection(int index) {
@@ -117,7 +117,8 @@ class _SelectPhotoScreenState extends State<SelectPhotoScreen> {
                             color: Theme.of(context).primaryColor, width: 3)
                         : null,
                     image: DecorationImage(
-                      image: MemoryImage(base64.decode(photos[index])),
+                      // image: MemoryImage(base64.decode(photos[index])),
+                      image: AssetImage(photos[index]),
                       fit: BoxFit.cover,
                     ),
                   ),

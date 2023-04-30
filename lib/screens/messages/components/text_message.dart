@@ -12,21 +12,23 @@ class TextMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: mainDefaultPadding * 0.75,
-        vertical: mainDefaultPadding / 2,
-      ),
-      decoration: BoxDecoration(
-        color: mainPrimaryColor.withOpacity(message.isSender ? 1 : 0.1),
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Text(
-        message.text,
-        style: TextStyle(
-          color: message.isSender
-              ? Colors.white
-              : Theme.of(context).textTheme.bodyLarge.color,
+    return Flexible(
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: mainDefaultPadding * 0.75,
+          vertical: mainDefaultPadding / 2,
+        ),
+        decoration: BoxDecoration(
+          color: mainPrimaryColor.withOpacity(message.isSender ? 1 : 0.1),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Text(
+          message.text,
+          style: TextStyle(
+            color: message.isSender
+                ? Colors.white
+                : Theme.of(context).textTheme.bodyLarge.color,
+          ),
         ),
       ),
     );
