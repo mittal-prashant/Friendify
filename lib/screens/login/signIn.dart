@@ -3,11 +3,27 @@ import 'package:chat/routes.dart';
 import 'package:chat/screens/chats/chats_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: missing_required_param
 const snackBar = SnackBar(
   content: Text(
     'Invalid Username or Password!',
+    style: TextStyle(fontSize: 16, color: Colors.white),
+  ),
+  backgroundColor: Colors.red, // Set the background color of the Snackbar
+  behavior: SnackBarBehavior.floating, // Set the behavior of the Snackbar
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(
+        Radius.circular(8)), // Set the border radius of the Snackbar
+  ),
+  duration: Duration(
+      seconds: 3), // Set the duration for how long the Snackbar is displayed
+);
+
+const snackBar2 = SnackBar(
+  content: Text(
+    'Email is not verified!',
     style: TextStyle(fontSize: 16, color: Colors.white),
   ),
   backgroundColor: Colors.red, // Set the background color of the Snackbar
@@ -37,11 +53,19 @@ class _SignInPageState extends State<SignInPage> {
     super.dispose();
   }
 
+  getVerifiedStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool boolValue = prefs.getBool('isVerified');
+    return boolValue;
+  }
+
   Future<void> _submitForm() async {
     if (_formKey.currentState.validate()) {
       String username = _usernameController.text;
       String password = _passwordController.text;
       bool success = await loginUser(username, password);
+      bool isVerified = await getVerifiedStatus();
+      // print("isVar = " + isVarified.toString());
 
       if (success) {
         Navigator.of(context).popUntil((route) => route.isFirst);
@@ -49,7 +73,11 @@ class _SignInPageState extends State<SignInPage> {
         Navigator.push(
             context, MaterialPageRoute(builder: ((context) => ChatsScreen())));
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        if (isVerified == false) {
+          ScaffoldMessenger.of(context).showSnackBar(snackBar2);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
       }
     }
   }
