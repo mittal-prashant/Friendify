@@ -58,18 +58,22 @@ Future<bool> loginUser(String username, String password) async {
             'isAvatar', jsonDecode(response.body)['user']['isAvatarImageSet']);
         pref.setString(
             'avatarImage', jsonDecode(response.body)['user']['avatarImage']);
+        pref.setBool('isVerified', responseData['user']['isVerified']);
+
         // pref.setString('friends', jsonDecode(response.body)['user']['friends']);
         // pref.setString(
         //     'onlineStatus', jsonDecode(response.body)['user']['onlineStatus']);
         // pref.setString('__v', jsonDecode(response.body)['user']['__v']);
         // print(pref.getString('userId'));
         // getUserInfo();
-        print("okk");
         // addFriend();
         return true;
         // do something with the user object
       } else {
         final msg = responseData['msg'];
+        final pref = await SharedPreferences.getInstance();
+        pref.setBool('isVerified', false);
+        print(pref.getBool('isVerified'));
         print(msg);
         return false;
         // handle error
