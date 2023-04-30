@@ -203,7 +203,8 @@ Future<bool> getRating() async {
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
       print("done");
-      pref.setDouble('rating', responseData['rating']);
+      print(responseData);
+      pref.setDouble('rating', double.parse(responseData['rating'].toString()));
       pref.setInt('ratedby', responseData['ratedby']);
     } else {
       return null;

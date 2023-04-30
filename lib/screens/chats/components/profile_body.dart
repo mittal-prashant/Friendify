@@ -40,6 +40,7 @@ class _Profile_BodyState extends State<Profile_Body> {
       rating = prefs.getDouble('rating');
       ratedBy = prefs.getInt('ratedby');
       print(avatarImage);
+      print(rating);
     });
   }
 
