@@ -18,6 +18,8 @@ class _Profile_BodyState extends State<Profile_Body> {
       gender = '',
       email = '',
       avatarImage = '';
+  double rating = 0;
+  int ratedBy = 0;
 
   @override
   void initState() {
@@ -27,6 +29,7 @@ class _Profile_BodyState extends State<Profile_Body> {
 
   Future<void> loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    await getRating();
 
     setState(() {
       username = prefs.getString('username');
@@ -34,7 +37,10 @@ class _Profile_BodyState extends State<Profile_Body> {
       gender = prefs.getString('gender');
       avatarImage = prefs.getString('avatarImage');
       email = prefs.getString('email');
+      rating = prefs.getDouble('rating');
+      ratedBy = prefs.getInt('ratedby');
       print(avatarImage);
+      print(rating);
     });
   }
 
@@ -67,8 +73,30 @@ class _Profile_BodyState extends State<Profile_Body> {
                   backgroundImage: AssetImage("$avatarImage"),
                 ),
               SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Show rating stars
+                  for (var i = 0; i < rating.floor(); i++)
+                    Icon(Icons.star, color: Colors.yellow),
+                  if (rating.floor() != rating)
+                    Icon(Icons.star_half, color: Colors.yellow),
+                  if (rating.round() < 5)
+                    for (var i = 0;
+                        i <
+                            (5 -
+                                rating.floor() -
+                                (rating.floor() != rating ? 1 : 0));
+                        i++)
+                      Icon(Icons.star_border, color: Colors.yellow),
+                  SizedBox(width: 10),
+                  Text('(Rated by $ratedBy users)',
+                      style: TextStyle(fontSize: 16)),
+                ],
+              ),
+              SizedBox(height: 20),
               Text(
-                'Gender: ' + gender,
+                'Gender: ' + (gender == 'male' ? 'Male' : 'Female'),
                 style: TextStyle(fontSize: 18),
               ),
               SizedBox(height: 10),

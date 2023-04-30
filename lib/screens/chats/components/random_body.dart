@@ -141,6 +141,9 @@ class _Random_BodyState extends State<Random_Body> {
     setState(() {
       _isLoading = true;
     });
+
+    print("okk");
+
     await Future.delayed(Duration(seconds: 3));
 
     await _handlePrivateRoom();
@@ -211,7 +214,7 @@ class _Random_BodyState extends State<Random_Body> {
                         randomName.length < 5
                             ? ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar1)
-                            : _findUser;
+                            : _findUser();
                       },
                       child: Text('Find User'),
                     ),

@@ -47,10 +47,10 @@ class Message extends StatelessWidget {
             ),
           ],
           messageContent(message),
-          if (message.isSender)
-            MessageStatusDot(
-              status: message.messageStatus,
-            ),
+          // if (message.isSender)
+          //   MessageStatusDot(
+          //     status: message.messageStatus,
+          //   ),
         ],
       ),
     );
@@ -66,7 +66,6 @@ class MessageStatusDot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     Color dotColor(MessageStatus status) {
       switch (status) {
         case MessageStatus.not_sent:
