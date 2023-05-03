@@ -16,6 +16,7 @@ Future<bool> registerUser(String username, String email, String password,
   });
   try {
     final response = await http.post(url, headers: headers, body: body);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       if (responseData['status'] == true) {
@@ -58,19 +59,11 @@ Future<bool> loginUser(String username, String password) async {
             'isAvatar', jsonDecode(response.body)['user']['isAvatarImageSet']);
         pref.setString(
             'avatarImage', jsonDecode(response.body)['user']['avatarImage']);
-        pref.setDouble('rating', jsonDecode(response.body)['user']['rating']);
+        pref.setDouble('rating', double.parse(jsonDecode(response.body)['user']['rating'].toString()));
         pref.setInt('ratedby', jsonDecode(response.body)['user']['ratedby']);
         pref.setBool('isVerified', responseData['user']['isVerified']);
 
-        // pref.setString('friends', jsonDecode(response.body)['user']['friends']);
-        // pref.setString(
-        //     'onlineStatus', jsonDecode(response.body)['user']['onlineStatus']);
-        // pref.setString('__v', jsonDecode(response.body)['user']['__v']);
-        // print(pref.getString('userId'));
-        // getUserInfo();
-        // addFriend();
         return true;
-        // do something with the user object
       } else {
         final msg = responseData['msg'];
         final pref = await SharedPreferences.getInstance();
@@ -104,23 +97,6 @@ Future<void> logoutUser() async {
     } else {
       // handle non-200 status code
     }
-  } catch (e) {
-    // handle exception
-    print('An error occurred: $e');
-  }
-}
-
-Future<void> setAvatar(String avatar) async {
-  final pref = await SharedPreferences.getInstance();
-  final id = jsonDecode(pref.getString('userId'));
-  final url = Uri.parse(logoutApi);
-  final headers = {'Content-Type': 'application/json'};
-  final body = json.encode({'id': id, 'avatar': avatar});
-
-  try {
-    final response = await http.post(url, headers: headers, body: body);
-    if (response.statusCode == 200) {
-    } else {}
   } catch (e) {
     // handle exception
     print('An error occurred: $e');

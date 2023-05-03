@@ -1,7 +1,7 @@
 import 'package:chat/screens/login/signIn.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/constants.dart';
-import 'package:chat/components/primary_button.dart';
+import 'package:chat/screens/login/components/primary_button.dart';
 import 'package:chat/screens/login/signUp.dart';
 
 class LoginScreen extends StatelessWidget {

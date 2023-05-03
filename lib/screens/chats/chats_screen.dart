@@ -12,7 +12,7 @@ class ChatsScreen extends StatefulWidget {
 }
 
 class _ChatsScreenState extends State<ChatsScreen> {
-  String page_title = 'Chats';
+  String page_title = 'Random';
   int _selectedIndex = 0;
   bool _showSearch = true;
   String avatarImage = '';
@@ -65,7 +65,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
             onTap: () {
               setState(() {
                 _selectedIndex = 0;
-                page_title = "Chats";
+                page_title = "Random";
                 _showSearch = false;
               });
             },
@@ -78,14 +78,14 @@ class _ChatsScreenState extends State<ChatsScreen> {
               ),
             ),
           ),
-          label: "Chats",
+          label: "Random",
         ),
         BottomNavigationBarItem(
           icon: GestureDetector(
             onTap: () {
               setState(() {
                 _selectedIndex = 1;
-                page_title = "People";
+                page_title = "Friends";
                 _showSearch = true;
               });
             },
@@ -98,7 +98,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
               ),
             ),
           ),
-          label: "People",
+          label: "Friends",
         ),
         BottomNavigationBarItem(
           icon: GestureDetector(

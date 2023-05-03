@@ -1,5 +1,4 @@
 import 'package:chat/providers/login_provider.dart';
-import 'package:chat/routes.dart';
 import 'package:chat/screens/chats/chats_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

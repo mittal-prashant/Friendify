@@ -1,1 +1,0 @@
-# Friendify_App

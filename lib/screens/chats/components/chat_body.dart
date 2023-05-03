@@ -6,10 +6,8 @@ import 'package:chat/screens/messages/message_screen.dart';
 import 'package:chat/screens/chats/components/chat_card.dart';
 import 'package:chat/screens/messages/components/OfflineMessage.dart';
 
-import 'package:chat/components/filled_outline_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../providers/login_provider.dart';
 import '../../../providers/message_provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../../providers/api_routes.dart';
@@ -134,29 +132,45 @@ class _Chat_BodyState extends State<Chat_Body> {
   @override
   Widget build(BuildContext context) {
     print("baap");
-  
 
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.builder(
-            itemCount: chatsData.length,
-            itemBuilder: (context, index) => ChatCard(
-              chat: chatsData[index],
-              press: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MessagesScreen(
-                      chat: chatsData[index],
-                      socket: socket,
-                      offlinemessages: offlinemessages),
+    return chatsData.length == 0
+        ? Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Looks like you have no friends yet.',
+                  style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Make some new friends now!',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ],
+            ),
+          )
+        : Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: chatsData.length,
+                  itemBuilder: (context, index) => ChatCard(
+                    chat: chatsData[index],
+                    press: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MessagesScreen(
+                            chat: chatsData[index],
+                            socket: socket,
+                            offlinemessages: offlinemessages),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
-      ],
-    );
+            ],
+          );
   }
 
   //  @override

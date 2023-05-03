@@ -1,12 +1,5 @@
 import 'package:chat/providers/login_provider.dart';
-import 'package:chat/screens/chats/components/profile_body.dart';
-import 'package:chat/screens/login/signIn.dart';
 import 'package:flutter/material.dart';
-import 'package:chat/constants.dart';
-import 'package:chat/models/Chat.dart';
-import 'package:chat/screens/messages/message_screen.dart';
-import 'package:chat/screens/chats/components/chat_card.dart';
-import 'package:chat/components/filled_outline_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:chat/screens/messages/message_screen_random.dart';
@@ -99,19 +92,22 @@ class _Random_BodyState extends State<Random_Body> {
           () {
             _user1 = data['user1'];
             _user2 = data['user2'];
-            _stranger = (_user1 == user_id ? (_user2) : (_user1));
-            Navigator.push(
-              // Use pushReplacement to navigate to MessageScreen
-              context,
-              MaterialPageRoute(
-                builder: (context) => MessagesScreenRandom(
-                  strangerId: _stranger,
-                  socket: socket,
-                  roomid: roomid,
-                  user_id: user_id,
-                ), // Pass the socket to MessageScreen
-              ),
-            );
+            print("here");
+            if (_user1 != _user2) {
+              _stranger = (_user1 == user_id ? (_user2) : (_user1));
+              Navigator.push(
+                // Use pushReplacement to navigate to MessageScreen
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MessagesScreenRandom(
+                    strangerId: _stranger,
+                    socket: socket,
+                    roomid: roomid,
+                    user_id: user_id,
+                  ), // Pass the socket to MessageScreen
+                ),
+              );
+            }
           },
         );
       },
@@ -134,6 +130,7 @@ class _Random_BodyState extends State<Random_Body> {
 
   void _handlePrivateRoom() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    socket.emit('randomconnect', {});
     socket.emit('privateRoom', prefs.getString('userId'));
   }
 
@@ -270,9 +267,12 @@ class _Random_BodyState extends State<Random_Body> {
     );
   }
 
-  @override
-  void dispose() {
-    socket.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // print(socket.connected);
+  //   // socket.emit('disconnect');
+  //   // socket.dispose();
+  //   // print(socket.connected);
+  //   super.dispose();
+  // }
 }

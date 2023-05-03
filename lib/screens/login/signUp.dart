@@ -1,14 +1,9 @@
 import 'dart:math';
-
 import 'package:chat/providers/login_provider.dart';
 import 'package:chat/screens/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/screens/login/components/gender_selector.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:io';
 
-// ignore: missing_required_param
 const snackBar = SnackBar(
   content: Text(
     'Invalid Username or Password!',

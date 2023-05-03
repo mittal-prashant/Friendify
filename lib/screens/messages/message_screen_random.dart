@@ -11,6 +11,21 @@ import 'package:chat/providers/login_provider.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
+const snackBar = SnackBar(
+  content: Text(
+    'User left the chat!',
+    style: TextStyle(fontSize: 16, color: Colors.white),
+  ),
+  backgroundColor: Colors.red, // Set the background color of the Snackbar
+  behavior: SnackBarBehavior.floating, // Set the behavior of the Snackbar
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(
+        Radius.circular(8)), // Set the border radius of the Snackbar
+  ),
+  duration: Duration(
+      seconds: 3), // Set the duration for how long the Snackbar is displayed
+);
+
 class MessagesScreenRandom extends StatefulWidget {
   final String strangerId;
   IO.Socket socket;
@@ -28,6 +43,16 @@ class _MessagesScreenRandomState extends State<MessagesScreenRandom> {
   @override
   void initState() {
     super.initState();
+
+    widget.socket.on(
+        'alone',
+        (data) => {
+              if (data['randomid'] != widget.user_id)
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar),
+                  showRatingPrompt(context),
+                }
+            });
 
     widget.socket.on(
         "receiverequest",
@@ -93,6 +118,11 @@ class _MessagesScreenRandomState extends State<MessagesScreenRandom> {
         .emit("sendrequest", {'room': widget.roomid, 'from': widget.user_id});
   }
 
+  void disconnect() {
+    widget.socket.emit('disconnectRandom', {'userid': widget.user_id});
+    // widget.socket.dispose();
+  }
+
   void showRatingPrompt(BuildContext context) {
     int rating = 0;
 
@@ -133,6 +163,7 @@ class _MessagesScreenRandomState extends State<MessagesScreenRandom> {
                     )
                   : ElevatedButton(
                       onPressed: () {
+                        widget.socket.dispose();
                         rateUser(widget.strangerId, rating);
                         Navigator.of(context).pop();
                         Navigator.push(
@@ -184,6 +215,7 @@ class _MessagesScreenRandomState extends State<MessagesScreenRandom> {
                       TextButton(
                         child: Text('Yes'),
                         onPressed: () {
+                          disconnect();
                           Navigator.of(context)
                               .pop(); // close the previous dialog
                           showRatingPrompt(context);

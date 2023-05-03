@@ -1,6 +1,5 @@
 import 'package:chat/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:chat/screens/messages/components/chat_input_field.dart';
 import 'package:chat/models/ChatMessage.dart';
 import 'package:chat/screens/messages/components/message.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -30,6 +29,7 @@ class _BodyState extends State<Body> {
       'newMessage',
       (data) => {
         setState(() {
+          print(data);
           String messg = data['message'];
           bool f = (user_id == data['senderId']);
           if (!f) {
@@ -46,11 +46,11 @@ class _BodyState extends State<Body> {
     );
   }
 
-  @override
-  void dispose() {
-    _textinputcontroller.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _textinputcontroller.dispose();
+  //   super.dispose();
+  // }
 
   void handlesend() {
     widget.socket.emit("sendMessage", {
