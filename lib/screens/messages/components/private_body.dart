@@ -1,4 +1,5 @@
 import 'package:chat/constants.dart';
+import 'package:chat/providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/screens/messages/components/chat_input_field.dart';
 import 'package:chat/models/ChatMessage.dart';
@@ -6,14 +7,16 @@ import 'package:chat/screens/messages/components/message.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chat/screens/messages/components/OfflineMessage.dart';
+import '../../../providers/api_routes.dart';
 
 class Body extends StatefulWidget {
-  final IO.Socket socket;
+  // final IO.Socket socket;
   final String friendid;
   List<OfflineMessage> offlinemessages;
 
   Body(
-      {@required this.socket,
+      {
+        // @required this.socket,
       @required this.friendid,
       @required this.offlinemessages});
 
@@ -23,6 +26,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   List<ChatMessage> messages = [];
+  IO.Socket socket = null;
 
   String user_id;
   final _textinputcontroller = TextEditingController();
@@ -31,11 +35,22 @@ class _BodyState extends State<Body> {
   void initState() {
     super.initState();
     loadData();
+    // loadofflinemessages()
+    loadmessages();
     print(widget.offlinemessages);
     if (widget.offlinemessages != null) {
       loadofflinemessages();
     }
-    widget.socket.on(
+        socket = IO.io(host, <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
+      socket.connect();
+      socket.onConnect(
+        (data) => print("Connected"),);
+    socket.emit('add-user', {'userId': user_id});
+      
+    socket.on(
       'msg-recieve',
       (data) => {
         print("this is msg receive event"),
@@ -43,13 +58,14 @@ class _BodyState extends State<Body> {
         setState(() {
           String messg = data['message'];
           bool f = (user_id == data['from']);
-          if (!f) {
+          print(f);
+          if (!f && (data['from']==widget.friendid)) {
             ChatMessage msg = ChatMessage(
                 messageType: ChatMessageType.text,
                 messageStatus: MessageStatus.viewed,
                 isSender: false,
                 text: messg);
-
+print(msg);
             messages.add(msg);
           }
         })
@@ -57,8 +73,11 @@ class _BodyState extends State<Body> {
     );
   }
 
+  
+
   @override
   void dispose() {
+    socket.dispose();
     _textinputcontroller.dispose();
     super.dispose();
   }
@@ -94,12 +113,18 @@ class _BodyState extends State<Body> {
     });
   }
 
-  void handlesend() {
-    widget.socket.emit("send-msg", {
+  Future<void> handlesend() async {
+    // print("fedsa");
+    await sendMessage(_textinputcontroller.text.toString(),widget.friendid, user_id);
+
+    socket.emit("send-msg", {
       'from': user_id,
       'to': widget.friendid,
       'message': _textinputcontroller.text.toString(),
     });
+
+    print("s id");
+    print(socket.id);
     setState(() {
       ChatMessage msg = ChatMessage(
           messageType: ChatMessageType.text,
@@ -118,6 +143,18 @@ class _BodyState extends State<Body> {
     setState(() {
       user_id = prefs.getString('userId');
     });
+  }
+
+    Future<void> loadmessages() async {
+       SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      user_id = prefs.getString('userId');
+    });
+    dynamic offmsgs=await getMessage(widget.friendid, user_id);
+print(offmsgs);
+   await deleteMessage(widget.friendid, user_id);
+   
   }
 
   // Body({@required this.messages});

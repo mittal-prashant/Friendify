@@ -9,7 +9,7 @@ import 'package:chat/screens/messages/components/OfflineMessage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../providers/message_provider.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+// import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../../providers/api_routes.dart';
 
 class Chat_Body extends StatefulWidget {
@@ -26,7 +26,7 @@ class _Chat_BodyState extends State<Chat_Body> {
       user_id = '';
   List<OfflineMessage> offlinemessages;
   List chatsData = [];
-  IO.Socket socket = null;
+  // IO.Socket socket = null;
 
   @override
   void initState() {
@@ -34,23 +34,23 @@ class _Chat_BodyState extends State<Chat_Body> {
     // Load user data from preferences
     loadData();
     getAllFriends();
-    socket = IO.io(host, <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': false,
-    });
+    // socket = IO.io(host, <String, dynamic>{
+    //   'transports': ['websocket'],
+    //   'autoConnect': false,
+    // });
   }
 
   Future<void> handleuser() {
     print("userid");
     print(user_id);
-    socket.emit('add-user', {'userId': user_id});
-    socket.on(
-        'offlineMessages',
-        (messages) => {
-              print('offlinemessages here:'),
-              // print(messages),
-              handleofflinemessages(messages.toString()),
-            });
+    // socket.emit('add-user', {'userId': user_id});
+    // socket.on(
+    //     'offlineMessages',
+    //     (messages) => {
+    //           print('offlinemessages here:'),
+    //           // print(messages),
+    //           handleofflinemessages(messages.toString()),
+    //         });
   }
 
   void handleofflinemessages(String jsonString) {
@@ -94,13 +94,13 @@ class _Chat_BodyState extends State<Chat_Body> {
       email = prefs.getString('email');
       // print(user_id);
     });
-    if (socket != null) {
-      socket.connect();
-      socket.onConnect(
-        (data) => print("Connected"),
-      );
-      handleuser();
-    }
+    // if (socket != null) {
+    //   socket.connect();
+    //   socket.onConnect(
+    //     (data) => print("Connected"),
+    //   );
+    //   handleuser();
+    // }
   }
 
   Future<void> getAllFriends() async {
@@ -162,7 +162,7 @@ class _Chat_BodyState extends State<Chat_Body> {
                       MaterialPageRoute(
                         builder: (context) => MessagesScreen(
                             chat: chatsData[index],
-                            socket: socket,
+                            // socket: socket,
                             offlinemessages: offlinemessages),
                       ),
                     ),

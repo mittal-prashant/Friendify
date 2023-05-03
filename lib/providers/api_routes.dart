@@ -17,3 +17,7 @@ const String addFriendApi = '$host/api/auth/addfriend';
 const String setRandomUsernameApi = '$host/api/auth/setrandomusername';
 const String rateUserApi = '$host/api/auth/rateuser';
 const String getRatingApi = '$host/api/auth/getrating';
+const String sendmessageapi = '$host/api/messages/addmsg/';
+const String getmessageapi = '$host/api/messages/getmsg/';
+const String deletemessageapi = '$host/api/messages/deletemsg/';
+

@@ -6,14 +6,14 @@ import 'package:chat/screens/messages/components/OfflineMessage.dart';
 
 
 import '../../../providers/api_routes.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+// import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 
 class MessagesScreen extends StatefulWidget {
    final Chat chat;
-  IO.Socket socket;
+  // IO.Socket socket;
     List<OfflineMessage> offlinemessages;
-  MessagesScreen({@required this.chat,this.socket,this.offlinemessages});
+  MessagesScreen({@required this.chat,this.offlinemessages});
 
   @override
   State<MessagesScreen> createState() => _MessagesScreenState();
@@ -36,7 +36,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
     // print(widget.offlinemessages);
     return Scaffold(
       appBar: buildAppBar(),
-      body: Body(socket:widget.socket,friendid: widget.chat.user_id,offlinemessages:widget.offlinemessages),
+      body: Body(friendid: widget.chat.user_id,offlinemessages:widget.offlinemessages),
     );
   }
 
