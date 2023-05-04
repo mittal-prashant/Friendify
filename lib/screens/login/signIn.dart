@@ -20,6 +20,7 @@ const snackBar = SnackBar(
 );
 
 const snackBar2 = SnackBar(
+  key: Key('snackbar'),
   content: Text(
     'Email is not verified!',
     style: TextStyle(fontSize: 16, color: Colors.white),

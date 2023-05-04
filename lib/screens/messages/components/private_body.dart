@@ -153,8 +153,21 @@ class _BodyState extends State<Body> {
       user_id = prefs.getString('userId');
     });
     dynamic offmsgs = await getMessage(widget.friendid, user_id);
-    print(offmsgs);
     await deleteMessage(widget.friendid, user_id);
+
+    setState(() {
+      for (var message in offmsgs['messages']) {
+        bool isSender = message['fromSelf'];
+        String text = message['message'];
+        ChatMessage chatMessage = ChatMessage(
+          messageType: ChatMessageType.text,
+          messageStatus: MessageStatus.viewed,
+          isSender: isSender,
+          text: text,
+        );
+        messages.add(chatMessage);
+      }
+    });
   }
 
   // Body({@required this.messages});
