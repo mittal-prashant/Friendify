@@ -64,7 +64,6 @@ Future<bool> loginUser(String username, String password) async {
                 jsonDecode(response.body)['user']['rating'].toString()));
         pref.setInt('ratedby', jsonDecode(response.body)['user']['ratedby']);
         pref.setBool('isVerified', responseData['user']['isVerified']);
-        pref.setString('token', responseData['user']['token']);
 
         return true;
       } else {
@@ -85,11 +84,7 @@ Future<bool> loginUser(String username, String password) async {
 
 Future<String> getUserInfo(String username) async {
   final url = Uri.parse(getUserInfoApi);
-  final pref = await SharedPreferences.getInstance();
-  final headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ${pref.getString('token')}'
-  };
+  final headers = {'Content-Type': 'application/json'};
   final body = json.encode({'username': username});
   try {
     final response = await http.post(url, headers: headers, body: body);
@@ -122,11 +117,7 @@ Future<String> getUserInfo(String username) async {
 
 Future<bool> addFriend(String sender, String receiver) async {
   final url = Uri.parse(addFriendApi);
-  final pref = await SharedPreferences.getInstance();
-  final headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ${pref.getString('token')}'
-  };
+  final headers = {'Content-Type': 'application/json'};
   final body = json.encode({'senderid': sender, 'receiverid': receiver});
   try {
     final response = await http.post(url, headers: headers, body: body);
@@ -148,10 +139,7 @@ Future<void> setRandomUsername(String randomName) async {
   final url = Uri.parse(setRandomUsernameApi);
   final pref = await SharedPreferences.getInstance();
   final id = pref.getString('userId');
-  final headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ${pref.getString('token')}'
-  };
+  final headers = {'Content-Type': 'application/json'};
   final body = json.encode({'id': id, 'random_username': randomName});
   try {
     final response = await http.post(url, headers: headers, body: body);
@@ -169,10 +157,7 @@ Future<void> getRating() async {
   final url = Uri.parse(getRatingApi);
   final pref = await SharedPreferences.getInstance();
   final id = pref.getString('userId');
-  final headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ${pref.getString('token')}'
-  };
+  final headers = {'Content-Type': 'application/json'};
   final body = json.encode({'id': id});
   try {
     final response = await http.post(url, headers: headers, body: body);
@@ -194,10 +179,7 @@ Future<void> deleteFriend(String friendid) async {
   final url = Uri.parse(getRatingApi);
   final pref = await SharedPreferences.getInstance();
   final id = pref.getString('userId');
-  final headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ${pref.getString('token')}'
-  };
+  final headers = {'Content-Type': 'application/json'};
   final body = json.encode({'id': id, 'friendid': friendid});
   try {
     final response = await http.post(url, headers: headers, body: body);
