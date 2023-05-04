@@ -124,14 +124,12 @@ class _Chat_BodyState extends State<Chat_Body> {
                 : chat['avatarImage']),
           );
         }).toList();
-        // print(chatsData);
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return chatsData.length == 0
         ? Center(
             child: Column(

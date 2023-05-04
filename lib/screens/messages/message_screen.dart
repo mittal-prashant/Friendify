@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:chat/models/Chat.dart';
 import 'package:chat/screens/messages/components/private_body.dart';
 import 'package:chat/screens/messages/components/OfflineMessage.dart';
-
 import 'components/friend_profile.dart';
-// import 'package:socket_io_client/socket_io_client.dart' as IO;
 
+// ignore: must_be_immutable
 class MessagesScreen extends StatefulWidget {
   final Chat chat;
-  // IO.Socket socket;
   List<OfflineMessage> offlinemessages;
   MessagesScreen({@required this.chat, this.offlinemessages});
 

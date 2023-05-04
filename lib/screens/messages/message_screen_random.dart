@@ -231,10 +231,10 @@ class _MessagesScreenRandomState extends State<MessagesScreenRandom> {
               }
             },
           ),
-          CircleAvatar(
-            backgroundImage: AssetImage("assets/images/male.png"),
-          ),
-          SizedBox(width: mainDefaultPadding * 0.75),
+          // CircleAvatar(
+          //   backgroundImage: AssetImage("assets/images/male.png"),
+          // ),
+          // SizedBox(width: mainDefaultPadding * 0.75),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

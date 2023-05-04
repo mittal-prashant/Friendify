@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import '../../../../providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../login/login.dart';
-
+// ignore: must_be_immutable
 class Friend_Profile extends StatefulWidget {
   String name;
   @override
@@ -14,12 +11,7 @@ class Friend_Profile extends StatefulWidget {
 }
 
 class _Friend_ProfileState extends State<Friend_Profile> {
-  int _selectedIndex = 2;
-  String user_data = '',
-      username = '',
-      gender = '',
-      email = '',
-      avatarImage = '';
+  String user_data = '', username = '', gender = '', avatarImage = '';
   double rating = 0;
   int ratedBy = 0;
 
@@ -31,12 +23,11 @@ class _Friend_ProfileState extends State<Friend_Profile> {
 
   Future<void> loadData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    getUserInfo(widget.name);
+    if (widget.name != 'dummy_tester_account') getUserInfo(widget.name);
 
     setState(() {
       username = sharedPreferences.getString('friend_name');
       gender = sharedPreferences.getString('friend_gender');
-      email = sharedPreferences.getString('friend_email');
       avatarImage = sharedPreferences.getString('friend_avatar');
       rating = sharedPreferences.getDouble('friend_rating');
       ratedBy = sharedPreferences.getInt('friend_ratedby');

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:chat/constants.dart';
 import 'package:chat/models/ChatMessage.dart';
 import 'package:chat/screens/messages/components/text_message.dart';
-import 'package:chat/screens/messages/components/audio_message.dart';
-import 'package:chat/screens/messages/components/video_message.dart';
 
 class Message extends StatelessWidget {
   const Message({
@@ -19,12 +17,6 @@ class Message extends StatelessWidget {
       switch (message.messageType) {
         case ChatMessageType.text:
           return TextMessage(message: message);
-          break;
-        case ChatMessageType.audio:
-          return AudioMessage(message: message);
-          break;
-        case ChatMessageType.video:
-          return VideoMessage(message: message);
           break;
         default:
           return SizedBox();
