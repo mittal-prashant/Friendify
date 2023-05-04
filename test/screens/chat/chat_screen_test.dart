@@ -1,3 +1,5 @@
+import 'package:chat/screens/chats/components/chat_body.dart';
+import 'package:chat/screens/chats/components/profile_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:chat/screens/chats/chats_screen.dart';
@@ -65,24 +67,22 @@ void main() {
     expect(snackBarFinder, findsOneWidget);
   });
 
-  testWidgets('',
-      (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: ChatsScreen()));
+  testWidgets('Testing Chat Body when no Friends added', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(home: Chat_Body()));
+    
+    final friendsText = find.text('Looks like you have no friends yet.');
+    expect(friendsText, findsOneWidget);
+  });
 
-    // Find the BottomNavigationBarItem widget
-    final friendsItemIndex = 1;
-    final bottomNavigationBar = find.byType(BottomNavigationBar);
+  testWidgets('Testing Profile Body for logout button', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(home: Profile_Body()));
 
-    final bottomNavigationBarPosition = tester.getCenter(bottomNavigationBar);
-    final friendsItemOffset = Offset(
-      bottomNavigationBarPosition.dx + (friendsItemIndex * 80.0) + 40.0,
-      bottomNavigationBarPosition.dy,
-    );
-
-    // Simulate tapping on the "Friends" item
-    await tester.tapAt(friendsItemOffset);
-    await tester.pumpAndSettle();
-
-    expect(true, true);
+    final logoutButton = find.byType(ElevatedButton);
+    await tester.tap(logoutButton);
+    
+    expect(find.text('Gender: Female'), findsOneWidget);
+    expect(find.text('Username: '), findsOneWidget);
+    expect(find.text('Email: '), findsOneWidget);
+    expect(logoutButton, findsOneWidget);
   });
 }
