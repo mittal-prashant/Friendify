@@ -9,6 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../providers/api_routes.dart';
 
 const snackBar = SnackBar(
+  key: Key('snackbar'),
   content: Text(
     'Random Username Must Be Atleast 5 characters!',
     style: TextStyle(fontSize: 16, color: Colors.white),
@@ -24,6 +25,7 @@ const snackBar = SnackBar(
 );
 
 const snackBar1 = SnackBar(
+  key: Key('snackbar'),
   content: Text(
     'Set a Random Username!',
     style: TextStyle(fontSize: 16, color: Colors.white),
@@ -176,6 +178,7 @@ class _Random_BodyState extends State<Random_Body> {
                 children: [
                   Expanded(
                     child: TextField(
+                      key: Key('random'),
                       decoration: InputDecoration(
                         hintText: 'Enter a random user name',
                         border: InputBorder.none,
@@ -190,7 +193,10 @@ class _Random_BodyState extends State<Random_Body> {
                   ElevatedButton(
                     onPressed: () {
                       if (randomName.length > 4) {
-                        setRandomUsername(randomName);
+                        if(randomName != "/TEST/")
+                        {
+                          setRandomUsername(randomName);
+                        }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
