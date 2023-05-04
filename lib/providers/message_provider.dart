@@ -13,9 +13,9 @@ Future<List<dynamic>> getFriends() async {
     final response = await http.post(url, headers: headers, body: body);
     print(response.statusCode);
     if (response.statusCode == 200) {
-      // final responseData = jsonDecode(response.body);
-      // print(responseData);
       return jsonDecode(response.body);
+    } else {
+      return null;
     }
   } catch (error) {
     print('An error occurred: $error');
@@ -23,12 +23,12 @@ Future<List<dynamic>> getFriends() async {
   }
 }
 
-Future<bool> sendMessage(String message) async {
-  final url = Uri.parse(sendMessageApi);
-  final pref = await SharedPreferences.getInstance();
-  final id = jsonDecode(pref.getString('userId'));
+Future<bool> sendMessage(String message, String from, String to) async {
+  final url = Uri.parse(sendmessageapi);
+
+  // final id = jsonDecode(pref.getString('userId'));
   final headers = {'Content-Type': 'application/json'};
-  final body = json.encode({'id': id, 'message': message});
+  final body = json.encode({'from': from, 'to': to, 'message': message});
   try {
     final response = await http.post(url, headers: headers, body: body);
     if (response.statusCode == 200) {
@@ -42,6 +42,42 @@ Future<bool> sendMessage(String message) async {
         return false;
         // handle error
       }
+    } else {
+      return false;
+    }
+  } catch (error) {
+    print('An error occurred: $error');
+    return false;
+  }
+}
+
+Future<dynamic> getMessage(String from, String to) async {
+  final url = Uri.parse(getmessageapi);
+
+  final headers = {'Content-Type': 'application/json'};
+  final body = json.encode({'from': from, 'to': to});
+  try {
+    final response = await http.post(url, headers: headers, body: body);
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      return responseData;
+    }
+  } catch (error) {
+    print('An error occurred: $error');
+    return false;
+  }
+}
+
+Future<dynamic> deleteMessage(String from, String to) async {
+  final url = Uri.parse(getmessageapi);
+
+  final headers = {'Content-Type': 'application/json'};
+  final body = json.encode({'from': from, 'to': to});
+  try {
+    final response = await http.post(url, headers: headers, body: body);
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      return responseData;
     }
   } catch (error) {
     print('An error occurred: $error');
@@ -51,7 +87,6 @@ Future<bool> sendMessage(String message) async {
 
 Future<bool> rateUser(String id, int rating) async {
   final url = Uri.parse(rateUserApi);
-  final pref = await SharedPreferences.getInstance();
   final headers = {'Content-Type': 'application/json'};
   final body = json.encode({'id': id, 'ratingval': rating});
   try {
@@ -62,9 +97,12 @@ Future<bool> rateUser(String id, int rating) async {
       // print(responseData);
       print("done");
       return true;
+    } else {
+      return false;
     }
   } catch (error) {
     print('An error occurred: $error');
     return false;
   }
 }
+

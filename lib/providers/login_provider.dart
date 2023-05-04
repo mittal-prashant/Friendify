@@ -21,15 +21,15 @@ Future<bool> registerUser(String username, String email, String password,
       final responseData = json.decode(response.body);
       if (responseData['status'] == true) {
         print('User registered successfully!');
-        final user = responseData['user'];
         return true;
-        // We get user object i.e. responseData['user'] from the registerApi, we can do anything onto it now.
       } else {
         final msg = responseData['msg'];
         print(msg);
         return false;
-        // This will include an error as to why user was not registered successfully.
       }
+    } else {
+      print('An error occurred');
+      return false;
     }
   } catch (error) {
     print('An error occurred: $error');
@@ -46,7 +46,6 @@ Future<bool> loginUser(String username, String password) async {
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
       if (responseData['status'] == true) {
-        final user = responseData['user'];
         final pref = await SharedPreferences.getInstance();
         pref.setBool('isLoggedIn', true);
         pref.setString('username', username);
@@ -55,8 +54,6 @@ Future<bool> loginUser(String username, String password) async {
         pref.setString('userId', jsonDecode(response.body)['user']['_id']);
         pref.setString('email', jsonDecode(response.body)['user']['email']);
         pref.setString('gender', jsonDecode(response.body)['user']['gender']);
-        pref.setBool(
-            'isAvatar', jsonDecode(response.body)['user']['isAvatarImageSet']);
         pref.setString(
             'avatarImage', jsonDecode(response.body)['user']['avatarImage']);
         pref.setDouble(
@@ -71,11 +68,11 @@ Future<bool> loginUser(String username, String password) async {
         final msg = responseData['msg'];
         final pref = await SharedPreferences.getInstance();
         pref.setBool('isVerified', false);
-        print(pref.getBool('isVerified'));
         print(msg);
         return false;
-        // handle error
       }
+    } else {
+      return false;
     }
   } catch (error) {
     print('An error occurred: $error');
@@ -122,10 +119,6 @@ Future<bool> addFriend(String sender, String receiver) async {
   final body = json.encode({'senderid': sender, 'receiverid': receiver});
   try {
     final response = await http.post(url, headers: headers, body: body);
-    // print(response.statusCode);
-    // print(response);
-    //   final responseData = jsonDecode(response.body);
-    //     print(responseData);
 
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
@@ -140,7 +133,7 @@ Future<bool> addFriend(String sender, String receiver) async {
   }
 }
 
-Future<bool> setRandomUsername(String randomName) async {
+Future<void> setRandomUsername(String randomName) async {
   final url = Uri.parse(setRandomUsernameApi);
   final pref = await SharedPreferences.getInstance();
   final id = pref.getString('userId');
@@ -152,16 +145,13 @@ Future<bool> setRandomUsername(String randomName) async {
       final responseData = jsonDecode(response.body);
       print(responseData['random_username']);
       pref.setString('randUser', responseData['random_username']);
-    } else {
-      return null;
     }
   } catch (error) {
     print('An error occurred: $error');
-    return null;
   }
 }
 
-Future<bool> getRating() async {
+Future<void> getRating() async {
   final url = Uri.parse(getRatingApi);
   final pref = await SharedPreferences.getInstance();
   final id = pref.getString('userId');
@@ -181,73 +171,5 @@ Future<bool> getRating() async {
   } catch (error) {
     print('An error occurred: $error');
     return null;
-  }
-}
-
-Future<bool> sendMessage(String message, String from, String to) async {
-  final url = Uri.parse(sendmessageapi);
-  final pref = await SharedPreferences.getInstance();
-  final id = pref.getString('userId');
-
-  // final id = jsonDecode(pref.getString('userId'));
-  final headers = {'Content-Type': 'application/json'};
-  final body = json.encode({'from': from, 'to': to, 'message': message});
-  try {
-    final response = await http.post(url, headers: headers, body: body);
-    if (response.statusCode == 200) {
-      final responseData = jsonDecode(response.body);
-      if (responseData['status'] == 'sent') {
-        return true;
-        // do something with the user object
-      } else {
-        final msg = responseData['msg'];
-        print(msg);
-        return false;
-        // handle error
-      }
-    }
-  } catch (error) {
-    print('An error occurred: $error');
-    return false;
-  }
-}
-
-Future<dynamic> getMessage(String from, String to) async {
-  final url = Uri.parse(getmessageapi);
-  final pref = await SharedPreferences.getInstance();
-  // final id = jsonDecode(pref.getString('userId'));
-  final id = pref.getString('userId');
-
-  final headers = {'Content-Type': 'application/json'};
-  final body = json.encode({'from': from, 'to': to});
-  try {
-    final response = await http.post(url, headers: headers, body: body);
-    if (response.statusCode == 200) {
-      final responseData = jsonDecode(response.body);
-      return responseData;
-    }
-  } catch (error) {
-    print('An error occurred: $error');
-    return false;
-  }
-}
-
-Future<dynamic> deleteMessage(String from, String to) async {
-  final url = Uri.parse(getmessageapi);
-  final pref = await SharedPreferences.getInstance();
-  // final id = jsonDecode(pref.getString('userId'));
-  final id = pref.getString('userId');
-
-  final headers = {'Content-Type': 'application/json'};
-  final body = json.encode({'from': from, 'to': to});
-  try {
-    final response = await http.post(url, headers: headers, body: body);
-    if (response.statusCode == 200) {
-      final responseData = jsonDecode(response.body);
-      return responseData;
-    }
-  } catch (error) {
-    print('An error occurred: $error');
-    return false;
   }
 }

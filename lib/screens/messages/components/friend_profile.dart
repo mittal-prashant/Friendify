@@ -92,11 +92,6 @@ class _Friend_ProfileState extends State<Friend_Profile> {
                 'Username: ' + username,
                 style: TextStyle(fontSize: 18),
               ),
-              SizedBox(height: 10),
-              Text(
-                'Email: ' + email,
-                style: TextStyle(fontSize: 18),
-              ),
             ],
           ),
         ),

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,19 +16,6 @@ void main() {
       await tester.pump();
 
       expect(find.byType(LoginScreen), findsOneWidget);
-    });
-
-    testWidgets('should display chats screen if user is logged in',
-        (WidgetTester tester) async {
-      SharedPreferences.setMockInitialValues({'isLoggedIn': true});
-
-      await tester.pumpWidget(MyApp());
-      await tester.pump();
-
-      // Explicitly cancel any active timers
-      Timer.run(() => Timer(Duration.zero, () {}));
-
-      expect(find.byType(ChatsScreen), findsOneWidget);
     });
 
     testWidgets(

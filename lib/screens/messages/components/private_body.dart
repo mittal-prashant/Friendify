@@ -8,6 +8,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chat/screens/messages/components/OfflineMessage.dart';
 import '../../../providers/api_routes.dart';
+import '../../../providers/message_provider.dart';
 
 class Body extends StatefulWidget {
   // final IO.Socket socket;
@@ -16,7 +17,7 @@ class Body extends StatefulWidget {
 
   Body(
       {
-        // @required this.socket,
+      // @required this.socket,
       @required this.friendid,
       @required this.offlinemessages});
 
@@ -41,15 +42,16 @@ class _BodyState extends State<Body> {
     if (widget.offlinemessages != null) {
       loadofflinemessages();
     }
-        socket = IO.io(host, <String, dynamic>{
+    socket = IO.io(host, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
-      socket.connect();
-      socket.onConnect(
-        (data) => print("Connected"),);
+    socket.connect();
+    socket.onConnect(
+      (data) => print("Connected"),
+    );
     socket.emit('add-user', {'userId': user_id});
-      
+
     socket.on(
       'msg-recieve',
       (data) => {
@@ -59,21 +61,19 @@ class _BodyState extends State<Body> {
           String messg = data['message'];
           bool f = (user_id == data['from']);
           print(f);
-          if (!f && (data['from']==widget.friendid)) {
+          if (!f && (data['from'] == widget.friendid)) {
             ChatMessage msg = ChatMessage(
                 messageType: ChatMessageType.text,
                 messageStatus: MessageStatus.viewed,
                 isSender: false,
                 text: messg);
-print(msg);
+            print(msg);
             messages.add(msg);
           }
         })
       },
     );
   }
-
-  
 
   @override
   void dispose() {
@@ -115,7 +115,8 @@ print(msg);
 
   Future<void> handlesend() async {
     // print("fedsa");
-    await sendMessage(_textinputcontroller.text.toString(),widget.friendid, user_id);
+    await sendMessage(
+        _textinputcontroller.text.toString(), widget.friendid, user_id);
 
     socket.emit("send-msg", {
       'from': user_id,
@@ -145,16 +146,15 @@ print(msg);
     });
   }
 
-    Future<void> loadmessages() async {
-       SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<void> loadmessages() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(() {
       user_id = prefs.getString('userId');
     });
-    dynamic offmsgs=await getMessage(widget.friendid, user_id);
-print(offmsgs);
-   await deleteMessage(widget.friendid, user_id);
-   
+    dynamic offmsgs = await getMessage(widget.friendid, user_id);
+    print(offmsgs);
+    await deleteMessage(widget.friendid, user_id);
   }
 
   // Body({@required this.messages});
@@ -197,13 +197,13 @@ print(offmsgs);
           child: SafeArea(
             child: Row(
               children: [
-                Icon(
-                  Icons.mic,
-                  color: mainPrimaryColor,
-                ),
-                SizedBox(
-                  width: mainDefaultPadding,
-                ),
+                // Icon(
+                //   Icons.mic,
+                //   color: mainPrimaryColor,
+                // ),
+                // SizedBox(
+                //   width: mainDefaultPadding,
+                // ),
                 Expanded(
                   child: Container(
                     padding: EdgeInsets.symmetric(
@@ -215,18 +215,18 @@ print(offmsgs);
                     ),
                     child: Row(
                       children: [
-                        IconButton(
-                          onPressed: () => {},
-                          icon: Icon(
-                            Icons.sentiment_satisfied_alt_outlined,
-                            color: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                .color
-                                .withOpacity(0.64),
-                          ),
-                        ),
-                        SizedBox(width: mainDefaultPadding / 4),
+                        // IconButton(
+                        //   onPressed: () => {},
+                        //   icon: Icon(
+                        //     Icons.sentiment_satisfied_alt_outlined,
+                        //     color: Theme.of(context)
+                        //         .textTheme
+                        //         .bodyLarge
+                        //         .color
+                        //         .withOpacity(0.64),
+                        //   ),
+                        // ),
+                        // SizedBox(width: mainDefaultPadding / 4),
                         Expanded(
                           child: TextField(
                             controller: _textinputcontroller,

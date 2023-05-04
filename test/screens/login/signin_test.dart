@@ -52,7 +52,7 @@ void main() {
 
   testWidgets('should navigate to ChatsScreen if valid credentials',
       (WidgetTester tester) async {
-    SharedPreferences.setMockInitialValues({'isVerified': true});
+    SharedPreferences.setMockInitialValues({'isVerified': true, 'avatarImage':'assets/images/male/M1.jpg'});
 
     // loginMockSuccess = true;
 

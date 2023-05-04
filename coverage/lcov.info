@@ -1,4 +1,4 @@
-SF:lib\main.dart
+SF:lib/main.dart
 DA:8,0
 DA:9,0
 DA:13,1
@@ -16,7 +16,7 @@ DA:27,1
 LF:14
 LH:12
 end_of_record
-SF:lib\screens\chats\chats_screen.dart
+SF:lib/screens/chats/chats_screen.dart
 DA:10,1
 DA:11,1
 DA:20,1
@@ -85,7 +85,7 @@ DA:135,1
 LF:65
 LH:39
 end_of_record
-SF:lib\screens\login\login.dart
+SF:lib/screens/login/login.dart
 DA:8,1
 DA:10,1
 DA:11,1
@@ -110,7 +110,7 @@ DA:44,1
 LF:21
 LH:15
 end_of_record
-SF:lib\screens\welcome\welcome_screen.dart
+SF:lib/screens/welcome/welcome_screen.dart
 DA:6,0
 DA:8,0
 DA:10,0
@@ -156,7 +156,7 @@ DA:71,0
 LF:42
 LH:0
 end_of_record
-SF:lib\theme.dart
+SF:lib/theme.dart
 DA:5,1
 DA:6,2
 DA:9,1
@@ -183,7 +183,7 @@ DA:52,1
 LF:23
 LH:23
 end_of_record
-SF:lib\components\filled_outline_button.dart
+SF:lib/components/filled_outline_button.dart
 DA:6,0
 DA:11,0
 DA:17,0
@@ -201,7 +201,7 @@ DA:30,0
 LF:14
 LH:0
 end_of_record
-SF:lib\components\primary_button.dart
+SF:lib/components/primary_button.dart
 DA:6,1
 DA:12,1
 DA:19,1
@@ -217,18 +217,18 @@ DA:31,1
 LF:12
 LH:12
 end_of_record
-SF:lib\models\Chat.dart
+SF:lib/models/Chat.dart
 DA:6,0
 LF:1
 LH:0
 end_of_record
-SF:lib\models\ChatMessage.dart
+SF:lib/models/ChatMessage.dart
 DA:12,0
 DA:20,0
 LF:2
 LH:0
 end_of_record
-SF:lib\providers\login_provider.dart
+SF:lib/providers/login_provider.dart
 DA:6,0
 DA:8,0
 DA:9,0
@@ -334,7 +334,7 @@ DA:189,0
 LF:102
 LH:0
 end_of_record
-SF:lib\providers\message_provider.dart
+SF:lib/providers/message_provider.dart
 DA:6,0
 DA:7,0
 DA:8,0
@@ -372,7 +372,7 @@ DA:67,0
 LF:34
 LH:0
 end_of_record
-SF:lib\screens\chats\components\chat_body.dart
+SF:lib/screens/chats/components/chat_body.dart
 DA:18,0
 DA:19,0
 DA:33,0
@@ -449,7 +449,7 @@ DA:152,0
 LF:73
 LH:0
 end_of_record
-SF:lib\screens\chats\components\profile_body.dart
+SF:lib/screens/chats/components/profile_body.dart
 DA:10,0
 DA:11,0
 DA:24,0
@@ -522,7 +522,7 @@ DA:115,0
 LF:69
 LH:0
 end_of_record
-SF:lib\screens\chats\components\random_body.dart
+SF:lib/screens/chats/components/random_body.dart
 DA:49,1
 DA:50,1
 DA:68,1
@@ -645,7 +645,7 @@ DA:276,1
 LF:119
 LH:56
 end_of_record
-SF:lib\screens\messages\message_screen.dart
+SF:lib/screens/messages/message_screen.dart
 DA:16,0
 DA:18,0
 DA:19,0
@@ -680,7 +680,7 @@ DA:73,0
 LF:31
 LH:0
 end_of_record
-SF:lib\screens\chats\components\chat_card.dart
+SF:lib/screens/chats/components/chat_card.dart
 DA:6,0
 DA:10,0
 DA:15,0
@@ -710,12 +710,12 @@ DA:89,0
 LF:26
 LH:0
 end_of_record
-SF:lib\screens\messages\components\OfflineMessage.dart
+SF:lib/screens/messages/components/OfflineMessage.dart
 DA:6,0
 LF:1
 LH:0
 end_of_record
-SF:lib\screens\login\signIn.dart
+SF:lib/screens/login/signIn.dart
 DA:39,0
 DA:40,0
 DA:48,0
@@ -780,7 +780,7 @@ DA:159,0
 LF:61
 LH:0
 end_of_record
-SF:lib\screens\messages\message_screen_random.dart
+SF:lib/screens/messages/message_screen_random.dart
 DA:21,0
 DA:23,0
 DA:24,0
@@ -930,7 +930,7 @@ DA:298,0
 LF:146
 LH:0
 end_of_record
-SF:lib\screens\login\components\gender_selector.dart
+SF:lib/screens/login/components/gender_selector.dart
 DA:6,0
 DA:8,0
 DA:9,0
@@ -974,7 +974,7 @@ DA:83,0
 LF:40
 LH:0
 end_of_record
-SF:lib\screens\login\signUp.dart
+SF:lib/screens/login/signUp.dart
 DA:29,0
 DA:30,0
 DA:31,0
@@ -1108,7 +1108,7 @@ DA:293,0
 LF:130
 LH:0
 end_of_record
-SF:lib\screens\messages\components\audio_message.dart
+SF:lib/screens/messages/components/audio_message.dart
 DA:6,0
 DA:9,0
 DA:13,0
@@ -1141,7 +1141,7 @@ DA:65,0
 LF:29
 LH:0
 end_of_record
-SF:lib\screens\messages\components\body.dart
+SF:lib/screens/messages/components/body.dart
 DA:12,0
 DA:14,0
 DA:15,0
@@ -1218,7 +1218,7 @@ DA:168,0
 LF:73
 LH:0
 end_of_record
-SF:lib\screens\messages\components\chat_input_field.dart
+SF:lib/screens/messages/components/chat_input_field.dart
 DA:5,0
 DA:7,0
 DA:9,0
@@ -1271,7 +1271,7 @@ DA:79,0
 LF:49
 LH:0
 end_of_record
-SF:lib\screens\messages\components\message.dart
+SF:lib/screens/messages/components/message.dart
 DA:9,0
 DA:12,0
 DA:16,0
@@ -1312,7 +1312,7 @@ DA:93,0
 LF:37
 LH:0
 end_of_record
-SF:lib\screens\messages\components\text_message.dart
+SF:lib/screens/messages/components/text_message.dart
 DA:6,0
 DA:9,0
 DA:13,0
@@ -1332,7 +1332,7 @@ DA:30,0
 LF:16
 LH:0
 end_of_record
-SF:lib\screens\messages\components\video_message.dart
+SF:lib/screens/messages/components/video_message.dart
 DA:7,0
 DA:10,0
 DA:14,0
@@ -1350,7 +1350,7 @@ DA:34,0
 LF:14
 LH:0
 end_of_record
-SF:lib\screens\messages\components\private_body.dart
+SF:lib/screens/messages/components/private_body.dart
 DA:15,0
 DA:20,0
 DA:21,0

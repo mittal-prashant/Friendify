@@ -26,13 +26,13 @@ class ChatInputField extends StatelessWidget {
       child: SafeArea(
         child: Row(
           children: [
-            Icon(
-              Icons.mic,
-              color: mainPrimaryColor,
-            ),
-            SizedBox(
-              width: mainDefaultPadding,
-            ),
+            // Icon(
+            //   Icons.mic,
+            //   color: mainPrimaryColor,
+            // ),
+            // SizedBox(
+            //   width: mainDefaultPadding,
+            // ),
             Expanded(
               child: Container(
                 padding: EdgeInsets.symmetric(

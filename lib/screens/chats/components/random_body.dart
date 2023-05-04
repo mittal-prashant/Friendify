@@ -44,7 +44,7 @@ class Random_Body extends StatefulWidget {
 }
 
 class _Random_BodyState extends State<Random_Body> {
-  String _foundUser;
+  String _foundUser = '';
   bool _isLoading = false;
   String _user1, _user2;
   String _stranger;
@@ -73,7 +73,6 @@ class _Random_BodyState extends State<Random_Body> {
     socket.on(
       'private ack',
       (data) => {
-        
         setState(() {
           roomid = data['roomID'];
           print(data['message']);
@@ -148,10 +147,10 @@ class _Random_BodyState extends State<Random_Body> {
 
     print("okkk");
 
-    String user = "John Doe";
+    // String user = "John Doe";
 
     setState(() {
-      _foundUser = user;
+      _foundUser = null;
       _isLoading = false;
     });
   }
@@ -224,39 +223,10 @@ class _Random_BodyState extends State<Random_Body> {
                     ),
                   if (!_isLoading && _foundUser == null)
                     Text(
-                      'No user found.',
+                      'No user online.',
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.red,
-                      ),
-                    ),
-                  if (!_isLoading && _foundUser != null)
-                    Container(
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            'User Details',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Name: ${_foundUser}',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
                       ),
                     ),
                 ],
@@ -268,12 +238,9 @@ class _Random_BodyState extends State<Random_Body> {
     );
   }
 
-  // @override
-  // void dispose() {
-  //   // print(socket.connected);
-  //   // socket.emit('disconnect');
-  //   // socket.dispose();
-  //   // print(socket.connected);
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    socket.dispose();
+    super.dispose();
+  }
 }

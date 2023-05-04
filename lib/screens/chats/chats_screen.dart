@@ -14,7 +14,7 @@ class ChatsScreen extends StatefulWidget {
 class _ChatsScreenState extends State<ChatsScreen> {
   String page_title = 'Random';
   int _selectedIndex = 0;
-  bool _showSearch = true;
+  // bool _showSearch = true;
   String avatarImage = '';
 
   @override
@@ -28,12 +28,6 @@ class _ChatsScreenState extends State<ChatsScreen> {
 
     setState(() {
       avatarImage = prefs.getString('avatarImage');
-    });
-  }
-
-  void _toggleSearch() {
-    setState(() {
-      _showSearch = !_showSearch;
     });
   }
 
@@ -66,7 +60,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
               setState(() {
                 _selectedIndex = 0;
                 page_title = "Random";
-                _showSearch = false;
+                // _showSearch = false;
               });
             },
             child: CircleAvatar(
@@ -86,7 +80,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
               setState(() {
                 _selectedIndex = 1;
                 page_title = "Friends";
-                _showSearch = true;
+                // _showSearch = true;
               });
             },
             child: CircleAvatar(
@@ -106,7 +100,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
               setState(() {
                 _selectedIndex = 2;
                 page_title = "Profile";
-                _showSearch = false;
+                // _showSearch = false;
               });
             },
             child: avatarImage != ""
@@ -128,13 +122,6 @@ class _ChatsScreenState extends State<ChatsScreen> {
     return AppBar(
       automaticallyImplyLeading: false,
       title: Text(page_title),
-      actions: [
-        if (_showSearch)
-          IconButton(
-            onPressed: _toggleSearch,
-            icon: Icon(Icons.search),
-          ),
-      ],
     );
   }
 }
