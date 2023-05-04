@@ -1,5 +1,5 @@
 import 'package:chat/constants.dart';
-import 'package:chat/providers/login_provider.dart';
+import '../../../../providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/screens/messages/components/chat_input_field.dart';
 import 'package:chat/models/ChatMessage.dart';
@@ -7,8 +7,8 @@ import 'package:chat/screens/messages/components/message.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chat/screens/messages/components/OfflineMessage.dart';
-import '../../../providers/api_routes.dart';
-import '../../../providers/message_provider.dart';
+import '../../../../providers/api_routes.dart';
+import '../../../../providers/message_provider.dart';
 
 class Body extends StatefulWidget {
   // final IO.Socket socket;
@@ -38,7 +38,7 @@ class _BodyState extends State<Body> {
     loadData();
     // loadofflinemessages()
     loadmessages();
-    print(widget.offlinemessages);
+    // print(widget.offlinemessages);
     if (widget.offlinemessages != null) {
       loadofflinemessages();
     }
@@ -55,19 +55,18 @@ class _BodyState extends State<Body> {
     socket.on(
       'msg-recieve',
       (data) => {
-        print("this is msg receive event"),
-        print(data),
+        // print("this is msg receive event"),
+        // print(data),
         setState(() {
           String messg = data['message'];
           bool f = (user_id == data['from']);
-          print(f);
           if (!f && (data['from'] == widget.friendid)) {
             ChatMessage msg = ChatMessage(
                 messageType: ChatMessageType.text,
                 messageStatus: MessageStatus.viewed,
                 isSender: false,
                 text: messg);
-            print(msg);
+            // print(msg);
             messages.add(msg);
           }
         })
@@ -83,13 +82,11 @@ class _BodyState extends State<Body> {
   }
 
   void loadofflinemessages() {
-    print("ddd");
     setState(() {
-      print("dddddddffffffffffhhhhhhh");
       for (OfflineMessage message in widget.offlinemessages) {
         // print(message.senderid);
         // print(message.message);
-        print(message.senderid == widget.friendid);
+        // print(message.senderid == widget.friendid);
         if (message.senderid == widget.friendid) {
           messages.add(ChatMessage(
               messageType: ChatMessageType.text,
@@ -114,7 +111,6 @@ class _BodyState extends State<Body> {
   }
 
   Future<void> handlesend() async {
-    // print("fedsa");
     await sendMessage(
         _textinputcontroller.text.toString(), widget.friendid, user_id);
 
@@ -124,8 +120,8 @@ class _BodyState extends State<Body> {
       'message': _textinputcontroller.text.toString(),
     });
 
-    print("s id");
-    print(socket.id);
+    // print("s id");
+    // print(socket.id);
     setState(() {
       ChatMessage msg = ChatMessage(
           messageType: ChatMessageType.text,
@@ -175,8 +171,8 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     if (widget.offlinemessages != null) {
       for (OfflineMessage message in widget.offlinemessages) {
-        print(message.senderid);
-        print(message.message);
+        // print(message.senderid);
+        // print(message.message);
       }
     }
     return Column(

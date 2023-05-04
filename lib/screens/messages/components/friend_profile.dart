@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:chat/providers/login_provider.dart';
+import '../../../../providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

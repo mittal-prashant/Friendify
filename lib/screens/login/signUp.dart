@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:chat/providers/login_provider.dart';
+import '../../../providers/login_provider.dart';
 import 'package:chat/screens/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/screens/login/components/gender_selector.dart';
@@ -41,14 +41,14 @@ class _SelectPhotoScreenState extends State<SelectPhotoScreen> {
       var randomInt = rng.nextInt(50) + 1;
       while (data.contains(randomInt)) randomInt = rng.nextInt(50) + 1;
       data.add(randomInt);
-      print(widget.gender);
+      // print(widget.gender);
       if (widget.gender == 'male') {
         photos.add('assets/images/male/M$randomInt.jpg');
       } else {
         photos.add('assets/images/female/F$randomInt.jpg');
       }
     }
-    print(photos);
+    // print(photos);
   }
 
   int _selectedIndex = -1;
@@ -132,9 +132,9 @@ class _SignUpPageState extends State<SignUpPage> {
     if (_formKey.currentState.validate() && _gender != null) {
       _formKey.currentState.save();
 
-      print('Username: $_username');
-      print('Email: $_email');
-      print('Gender: $_gender');
+      // print('Username: $_username');
+      // print('Email: $_email');
+      // print('Gender: $_gender');
 
       bool hasRegistered = await registerUser(
           _username, _email, _password, _gender, avatarImage);
@@ -263,7 +263,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 },
                               );
                               if (selectedPhoto != null) {
-                                print(selectedPhoto);
+                                // print(selectedPhoto);
                                 _submitForm(selectedPhoto);
                               }
                             },

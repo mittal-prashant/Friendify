@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:chat/providers/login_provider.dart';
 
 void main() {
   testWidgets('should show snackbar if invalid credentials',

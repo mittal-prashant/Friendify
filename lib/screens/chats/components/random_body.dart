@@ -1,4 +1,4 @@
-import 'package:chat/providers/login_provider.dart';
+import '../../../../providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -6,7 +6,7 @@ import 'package:chat/screens/messages/message_screen_random.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../../providers/api_routes.dart';
+import '../../../../providers/api_routes.dart';
 
 const snackBar = SnackBar(
   content: Text(
@@ -75,9 +75,9 @@ class _Random_BodyState extends State<Random_Body> {
       (data) => {
         setState(() {
           roomid = data['roomID'];
-          print(data['message']);
-          print(data['roomID']);
-          print(data['isfilled']);
+          // print(data['message']);
+          // print(data['roomID']);
+          // print(data['isfilled']);
           if (data['isfilled']) {
             isRoomFilled = true;
           }
@@ -92,7 +92,7 @@ class _Random_BodyState extends State<Random_Body> {
           () {
             _user1 = data['user1'];
             _user2 = data['user2'];
-            print("here");
+            // print("here");
             if (_user1 != _user2) {
               _stranger = (_user1 == user_id ? (_user2) : (_user1));
               Navigator.push(
@@ -139,13 +139,13 @@ class _Random_BodyState extends State<Random_Body> {
       _isLoading = true;
     });
 
-    print("okk");
+    // print("okk");
 
     await Future.delayed(Duration(seconds: 3));
 
     await _handlePrivateRoom();
 
-    print("okkk");
+    // print("okkk");
 
     // String user = "John Doe";
 

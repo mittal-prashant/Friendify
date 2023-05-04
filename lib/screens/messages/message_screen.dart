@@ -4,7 +4,6 @@ import 'package:chat/models/Chat.dart';
 import 'package:chat/screens/messages/components/private_body.dart';
 import 'package:chat/screens/messages/components/OfflineMessage.dart';
 
-import '../../../providers/api_routes.dart';
 import 'components/friend_profile.dart';
 // import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -27,7 +26,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("messagescreen");
+    // print("messagescreen");
     // print(widget.offlinemessages);
     return Scaffold(
       appBar: buildAppBar(),

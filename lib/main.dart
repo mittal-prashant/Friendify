@@ -1,6 +1,6 @@
 import 'package:chat/screens/chats/chats_screen.dart';
 import 'package:chat/screens/login/login.dart';
-import 'package:chat/screens/welcome/welcome_screen.dart';
+import 'package:chat/screens/login/welcome/welcome_screen.dart';
 import 'package:chat/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

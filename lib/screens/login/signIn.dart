@@ -1,4 +1,4 @@
-import 'package:chat/providers/login_provider.dart';
+import '../../../providers/login_provider.dart';
 import 'package:chat/screens/chats/chats_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

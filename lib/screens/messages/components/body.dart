@@ -29,7 +29,7 @@ class _BodyState extends State<Body> {
       'newMessage',
       (data) => {
         setState(() {
-          print(data);
+          // print(data);
           String messg = data['message'];
           bool f = (user_id == data['senderId']);
           if (!f) {

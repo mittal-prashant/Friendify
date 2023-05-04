@@ -8,9 +8,9 @@ import 'package:chat/screens/messages/components/OfflineMessage.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../providers/message_provider.dart';
+import '../../../../providers/message_provider.dart';
 // import 'package:socket_io_client/socket_io_client.dart' as IO;
-import '../../../providers/api_routes.dart';
+import '../../../../providers/api_routes.dart';
 
 class Chat_Body extends StatefulWidget {
   @override
@@ -41,8 +41,8 @@ class _Chat_BodyState extends State<Chat_Body> {
   }
 
   Future<void> handleuser() {
-    print("userid");
-    print(user_id);
+    // print("userid");
+    // print(user_id);
     // socket.emit('add-user', {'userId': user_id});
     // socket.on(
     //     'offlineMessages',
@@ -131,7 +131,6 @@ class _Chat_BodyState extends State<Chat_Body> {
 
   @override
   Widget build(BuildContext context) {
-    print("baap");
 
     return chatsData.length == 0
         ? Center(
