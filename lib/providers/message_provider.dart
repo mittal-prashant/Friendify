@@ -1,7 +1,8 @@
-import 'package:chat/providers/api_routes.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'api_routes.dart';
 
 Future<List<dynamic>> getFriends() async {
   final url = Uri.parse(getFriendsApi);
@@ -93,9 +94,6 @@ Future<bool> rateUser(String id, int rating) async {
     final response = await http.post(url, headers: headers, body: body);
     print(response.statusCode);
     if (response.statusCode == 200) {
-      // final responseData = jsonDecode(response.body);
-      // print(responseData);
-      print("done");
       return true;
     } else {
       return false;
@@ -105,4 +103,3 @@ Future<bool> rateUser(String id, int rating) async {
     return false;
   }
 }
-

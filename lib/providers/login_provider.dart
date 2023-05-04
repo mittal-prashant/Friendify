@@ -1,7 +1,8 @@
-import 'package:chat/providers/api_routes.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'api_routes.dart';
 
 Future<bool> registerUser(String username, String email, String password,
     String gender, String avatarImage) async {
@@ -161,7 +162,6 @@ Future<void> getRating() async {
     final response = await http.post(url, headers: headers, body: body);
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
-      print("done");
       print(responseData);
       pref.setDouble('rating', double.parse(responseData['rating'].toString()));
       pref.setInt('ratedby', responseData['ratedby']);

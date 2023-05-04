@@ -39,8 +39,8 @@ class _Profile_BodyState extends State<Profile_Body> {
       email = prefs.getString('email');
       rating = prefs.getDouble('rating');
       ratedBy = prefs.getInt('ratedby');
-      print(avatarImage);
-      print(rating);
+      // print(avatarImage);
+      // print(rating);
     });
   }
 

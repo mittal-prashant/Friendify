@@ -1,4 +1,4 @@
-import 'package:chat/providers/login_provider.dart';
+import '../../../providers/login_provider.dart';
 import 'package:chat/screens/chats/chats_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,7 +20,7 @@ const snackBar = SnackBar(
 );
 
 const snackBar2 = SnackBar(
-  key: Key('snackbar'),
+  key: Key('snackbar2'),
   content: Text(
     'Email is not verified!',
     style: TextStyle(fontSize: 16, color: Colors.white),
@@ -71,7 +71,7 @@ class _SignInPageState extends State<SignInPage> {
       bool isVerified = await getVerifiedStatus();
       // print("isVar = " + isVarified.toString());
 
-      if (success) {
+      if (success && isVerified) {
         Navigator.of(context).popUntil((route) => route.isFirst);
         Navigator.of(context).pop(); // Pop current screen
         Navigator.push(

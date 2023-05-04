@@ -57,7 +57,7 @@ class _MessagesScreenRandomState extends State<MessagesScreenRandom> {
     widget.socket.on(
         "receiverequest",
         (data) => {
-              print(data),
+              // print(data),
               if (data['senderid'] != widget.user_id)
                 showDialog(
                   context: context,
@@ -74,7 +74,7 @@ class _MessagesScreenRandomState extends State<MessagesScreenRandom> {
         "requestresponse",
         (data) => {
               setState(() {
-                print(data);
+                // print(data);
                 if (data['senderid'] != widget.user_id) {
                   showDialog(
                     context: context,
