@@ -12,7 +12,7 @@ class Friend_Profile extends StatefulWidget {
 
 class _Friend_ProfileState extends State<Friend_Profile> {
   String user_data = '', username = '', gender = '', avatarImage = '';
-  double rating = 0;
+  double rating = 0.0;
   int ratedBy = 0;
 
   @override
@@ -30,8 +30,16 @@ class _Friend_ProfileState extends State<Friend_Profile> {
       gender = sharedPreferences.getString('friend_gender');
       avatarImage = sharedPreferences.getString('friend_avatar');
       rating = sharedPreferences.getDouble('friend_rating');
+      if (rating == null) rating = 0;
       ratedBy = sharedPreferences.getInt('friend_ratedby');
     });
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   @override

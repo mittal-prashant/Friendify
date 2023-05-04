@@ -1,6 +1,6 @@
 // const String host = "http://10.0.2.2:5000";
 const String host = "http://localhost:5000";
-// const String host = 'http://172.30.8.213:5010';
+// const String host = 'http://172.30.8.213:5012';
 // const String host = 'https://friendify-g3h8.onrender.com';
 const String loginApi = '$host/api/auth/login';
 const String registerApi = '$host/api/auth/register';
@@ -20,4 +20,3 @@ const String getRatingApi = '$host/api/auth/getrating';
 const String sendmessageapi = '$host/api/messages/addmsg/';
 const String getmessageapi = '$host/api/messages/getmsg/';
 const String deletemessageapi = '$host/api/messages/deletemsg/';
-

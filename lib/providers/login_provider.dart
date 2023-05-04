@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'api_routes.dart';
 
-Future<bool> registerUser(String username, String email, String password,
+Future<String> registerUser(String username, String email, String password,
     String gender, String avatarImage) async {
   final url = Uri.parse(registerApi);
   final headers = {'Content-Type': 'application/json'};
@@ -22,19 +22,20 @@ Future<bool> registerUser(String username, String email, String password,
       final responseData = json.decode(response.body);
       if (responseData['status'] == true) {
         print('User registered successfully!');
-        return true;
+        // return true;
+        return "User registered successfully";
       } else {
         final msg = responseData['msg'];
-        print(msg);
-        return false;
+        // print(msg);
+        return msg;
       }
     } else {
       print('An error occurred');
-      return false;
+      return "Error Occured";
     }
   } catch (error) {
     print('An error occurred: $error');
-    return false;
+    return "Error Occured";
   }
 }
 

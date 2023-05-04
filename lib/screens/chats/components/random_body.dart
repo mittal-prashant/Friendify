@@ -193,8 +193,7 @@ class _Random_BodyState extends State<Random_Body> {
                   ElevatedButton(
                     onPressed: () {
                       if (randomName.length > 4) {
-                        if(randomName != "/TEST/")
-                        {
+                        if (randomName != "/TEST/") {
                           setRandomUsername(randomName);
                         }
                       } else {

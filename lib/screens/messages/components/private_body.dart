@@ -181,9 +181,11 @@ class _BodyState extends State<Body> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: mainDefaultPadding),
             child: ListView.builder(
+              reverse: true,
+              shrinkWrap: true,
               itemCount: messages.length,
               itemBuilder: (context, index) => Message(
-                message: messages[index],
+                message: messages[messages.length - index - 1],
               ),
             ),
           ),
@@ -255,7 +257,11 @@ class _BodyState extends State<Body> {
                         // ),
                         SizedBox(width: mainDefaultPadding / 4),
                         IconButton(
-                          onPressed: () => {handlesend()},
+                          onPressed: () => {
+                            if (_textinputcontroller.toString().trim().length >
+                                0)
+                              {handlesend()},
+                          },
                           icon: Icon(
                             Icons.send,
                             color: Theme.of(context)

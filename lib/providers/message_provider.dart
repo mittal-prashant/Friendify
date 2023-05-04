@@ -70,7 +70,7 @@ Future<dynamic> getMessage(String from, String to) async {
 }
 
 Future<dynamic> deleteMessage(String from, String to) async {
-  final url = Uri.parse(getmessageapi);
+  final url = Uri.parse(deletemessageapi);
 
   final headers = {'Content-Type': 'application/json'};
   final body = json.encode({'from': from, 'to': to});

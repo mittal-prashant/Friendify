@@ -4,9 +4,39 @@ import 'package:chat/screens/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/screens/login/components/gender_selector.dart';
 
-const snackBar = SnackBar(
+const username_snackBar = SnackBar(
   content: Text(
-    'Invalid Username or Password!',
+    'Username already used!',
+    style: TextStyle(fontSize: 16, color: Colors.white),
+  ),
+  backgroundColor: Colors.red, // Set the background color of the Snackbar
+  behavior: SnackBarBehavior.floating, // Set the behavior of the Snackbar
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(
+        Radius.circular(8)), // Set the border radius of the Snackbar
+  ),
+  duration: Duration(
+      seconds: 3), // Set the duration for how long the Snackbar is displayed
+);
+
+const email_snackbar = SnackBar(
+  content: Text(
+    'Email already used!',
+    style: TextStyle(fontSize: 16, color: Colors.white),
+  ),
+  backgroundColor: Colors.red, // Set the background color of the Snackbar
+  behavior: SnackBarBehavior.floating, // Set the behavior of the Snackbar
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(
+        Radius.circular(8)), // Set the border radius of the Snackbar
+  ),
+  duration: Duration(
+      seconds: 3), // Set the duration for how long the Snackbar is displayed
+);
+
+const default_snackbar = SnackBar(
+  content: Text(
+    'Some Error Occured!',
     style: TextStyle(fontSize: 16, color: Colors.white),
   ),
   backgroundColor: Colors.red, // Set the background color of the Snackbar
@@ -37,7 +67,7 @@ class _SelectPhotoScreenState extends State<SelectPhotoScreen> {
     List<int> data = [];
     photos.clear();
     var rng = new Random();
-    for (var i = 0; i < 8; i++) {
+    for (var i = 0; i < 16; i++) {
       var randomInt = rng.nextInt(50) + 1;
       while (data.contains(randomInt)) randomInt = rng.nextInt(50) + 1;
       data.add(randomInt);
@@ -136,14 +166,20 @@ class _SignUpPageState extends State<SignUpPage> {
       // print('Email: $_email');
       // print('Gender: $_gender');
 
-      bool hasRegistered = await registerUser(
+      String hasRegistered = await registerUser(
           _username, _email, _password, _gender, avatarImage);
 
-      if (hasRegistered) {
+      if (hasRegistered == 'User registered successfully') {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.of(context).pop();
         Navigator.push(
             context, MaterialPageRoute(builder: ((context) => LoginScreen())));
+      } else if (hasRegistered == 'Username already used!') {
+        ScaffoldMessenger.of(context).showSnackBar(username_snackBar);
+      } else if (hasRegistered == 'Email already used!') {
+        ScaffoldMessenger.of(context).showSnackBar(email_snackbar);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        ScaffoldMessenger.of(context).showSnackBar(default_snackbar);
       }
     } else {
       setState(() {

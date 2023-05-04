@@ -129,6 +129,13 @@ class _Chat_BodyState extends State<Chat_Body> {
   }
 
   @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return chatsData.length == 0
         ? Center(
