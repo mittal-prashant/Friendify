@@ -26,10 +26,9 @@ void main() {
     await tester.pumpAndSettle();
 
     final snackBarFinder = find.byKey(Key('snackbar'));
-    
+
     expect(find.text('Invalid Username or Password!'), findsOneWidget);
     expect(snackBarFinder, findsOneWidget);
-
   });
 
   testWidgets('should show snackbar if email is not verified',
@@ -46,28 +45,30 @@ void main() {
 
     await tester.enterText(usernameField, 'valid_user');
     await tester.enterText(passwordField, 'valid_password');
+
     await tester.tap(loginButton);
     await tester.pumpAndSettle();
 
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    final snackBarFinder = find.byKey(Key('snackbar2'));
+
     expect(find.text('Email is not verified!'), findsOneWidget);
+    expect(snackBarFinder, findsOneWidget);
   });
 
   testWidgets('should navigate to ChatsScreen if valid credentials',
       (WidgetTester tester) async {
-    SharedPreferences.setMockInitialValues({'isVerified': true, 'avatarImage':'assets/images/male/M1.jpg'});
-
-    // loginMockSuccess = true;
+    SharedPreferences.setMockInitialValues(
+        {'isVerified': true, 'avatarImage': 'assets/images/male/M1.jpg'});
 
     await tester.pumpWidget(GetMaterialApp(
       home: SignInPage(),
     ));
 
-    
-    
     final usernameField = find.byKey(Key('username'));
     final passwordField = find.byKey(Key('password'));
     final loginButton = find.byType(ElevatedButton);
-
 
     await tester.enterText(usernameField, 'valid_user');
     await tester.enterText(passwordField, 'valid_password');
