@@ -8,10 +8,7 @@ Future<List<dynamic>> getFriends() async {
   final url = Uri.parse(getFriendsApi);
   final pref = await SharedPreferences.getInstance();
   final senderid = pref.getString('userId');
-  final headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ${pref.getString('token')}'
-  };
+  final headers = {'Content-Type': 'application/json'};
   final body = json.encode({'id': senderid});
   try {
     final response = await http.post(url, headers: headers, body: body);
@@ -91,11 +88,7 @@ Future<dynamic> deleteMessage(String from, String to) async {
 
 Future<bool> rateUser(String id, int rating) async {
   final url = Uri.parse(rateUserApi);
-  final pref = await SharedPreferences.getInstance();
-  final headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ${pref.getString('token')}'
-  };
+  final headers = {'Content-Type': 'application/json'};
   final body = json.encode({'id': id, 'ratingval': rating});
   try {
     final response = await http.post(url, headers: headers, body: body);
