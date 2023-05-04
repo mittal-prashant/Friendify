@@ -4,31 +4,26 @@ import 'package:chat/models/Chat.dart';
 import 'package:chat/screens/messages/components/private_body.dart';
 import 'package:chat/screens/messages/components/OfflineMessage.dart';
 
-
 import '../../../providers/api_routes.dart';
+import 'components/friend_profile.dart';
 // import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-
 class MessagesScreen extends StatefulWidget {
-   final Chat chat;
+  final Chat chat;
   // IO.Socket socket;
-    List<OfflineMessage> offlinemessages;
-  MessagesScreen({@required this.chat,this.offlinemessages});
+  List<OfflineMessage> offlinemessages;
+  MessagesScreen({@required this.chat, this.offlinemessages});
 
   @override
   State<MessagesScreen> createState() => _MessagesScreenState();
 }
 
 class _MessagesScreenState extends State<MessagesScreen> {
-
-    @override
+  @override
   void initState() {
     super.initState();
     // loadData();
-  
-   
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -36,42 +31,47 @@ class _MessagesScreenState extends State<MessagesScreen> {
     // print(widget.offlinemessages);
     return Scaffold(
       appBar: buildAppBar(),
-      body: Body(friendid: widget.chat.user_id,offlinemessages:widget.offlinemessages),
+      body: Body(
+          friendid: widget.chat.user_id,
+          offlinemessages: widget.offlinemessages),
     );
   }
 
   AppBar buildAppBar() {
     return AppBar(
       automaticallyImplyLeading: false,
-      title: Row(
-        children: [
-          BackButton(),
-          CircleAvatar(
-            backgroundImage: AssetImage(widget.chat.image),
-          ),
-          SizedBox(width: mainDefaultPadding * 0.75),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.chat.name,
-                style: TextStyle(fontSize: 16),
-              ),
-              Text(
-                widget.chat.gender,
-                style: TextStyle(fontSize: 12),
-              )
-            ],
-          )
-        ],
+      title: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Friend_Profile(widget.chat.name),
+            ),
+          );
+        },
+        child: Row(
+          children: [
+            BackButton(),
+            CircleAvatar(
+              backgroundImage: AssetImage(widget.chat.image),
+            ),
+            SizedBox(width: mainDefaultPadding * 0.75),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.chat.name,
+                  style: TextStyle(fontSize: 16),
+                ),
+                Text(
+                  widget.chat.gender,
+                  style: TextStyle(fontSize: 12),
+                )
+              ],
+            )
+          ],
+        ),
       ),
-      actions: [
-      IconButton(
-        icon: Icon(Icons.videocam),
-        onPressed: () {},
-      ),
-      SizedBox(width: mainDefaultPadding / 2),
-    ],
     );
   }
 }

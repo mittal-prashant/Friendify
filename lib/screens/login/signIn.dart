@@ -1,11 +1,10 @@
 import 'package:chat/providers/login_provider.dart';
 import 'package:chat/screens/chats/chats_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// ignore: missing_required_param
 const snackBar = SnackBar(
+  key: Key('snackbar'),
   content: Text(
     'Invalid Username or Password!',
     style: TextStyle(fontSize: 16, color: Colors.white),
@@ -111,6 +110,7 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                   SizedBox(height: 50),
                   TextFormField(
+                    key: Key('username'),
                     controller: _usernameController,
                     decoration: InputDecoration(
                       hintText: 'Username',
@@ -125,6 +125,7 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                   SizedBox(height: 20),
                   TextFormField(
+                    key: Key('password'),
                     controller: _passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
