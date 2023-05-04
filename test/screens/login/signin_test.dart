@@ -3,6 +3,7 @@ import 'package:chat/screens/login/signIn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chat/providers/login_provider.dart';
 
@@ -25,9 +26,10 @@ void main() {
     await tester.pumpAndSettle();
 
     final snackBarFinder = find.byKey(Key('snackbar'));
+    
+    expect(find.text('Invalid Username or Password!'), findsOneWidget);
     expect(snackBarFinder, findsOneWidget);
 
-    expect(find.text('Invalid Username or Password!'), findsOneWidget);
   });
 
   testWidgets('should show snackbar if email is not verified',
@@ -60,12 +62,16 @@ void main() {
       home: SignInPage(),
     ));
 
+    
+    
     final usernameField = find.byKey(Key('username'));
     final passwordField = find.byKey(Key('password'));
     final loginButton = find.byType(ElevatedButton);
 
+
     await tester.enterText(usernameField, 'valid_user');
     await tester.enterText(passwordField, 'valid_password');
+
     await tester.tap(loginButton);
     await tester.pumpAndSettle();
 

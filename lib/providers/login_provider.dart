@@ -233,7 +233,7 @@ Future<dynamic> getMessage(String from, String to) async {
 }
 
 Future<dynamic> deleteMessage(String from, String to) async {
-  final url = Uri.parse(getmessageapi);
+  final url = Uri.parse(deletemessageapi);
   final pref = await SharedPreferences.getInstance();
   // final id = jsonDecode(pref.getString('userId'));
   final id = pref.getString('userId');

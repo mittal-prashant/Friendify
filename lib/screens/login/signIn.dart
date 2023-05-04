@@ -20,6 +20,7 @@ const snackBar = SnackBar(
 );
 
 const snackBar2 = SnackBar(
+  key: Key('snackbar'),
   content: Text(
     'Email is not verified!',
     style: TextStyle(fontSize: 16, color: Colors.white),
@@ -61,8 +62,8 @@ class _SignInPageState extends State<SignInPage> {
     if (_formKey.currentState.validate()) {
       String username = _usernameController.text;
       String password = _passwordController.text;
-      bool success = await loginUser(username, password);
-      bool isVerified = await getVerifiedStatus();
+      bool success = await loginUser(username, password) ?? false;
+      bool isVerified = await getVerifiedStatus() ?? false;
       // print("isVar = " + isVarified.toString());
 
       if (success) {
