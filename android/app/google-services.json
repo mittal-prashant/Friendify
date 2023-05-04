@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "22324164304",
+    "project_id": "friendify-773ed",
+    "storage_bucket": "friendify-773ed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22324164304:android:55acd07b14ddea4ffd50d5",
+        "android_client_info": {
+          "package_name": "com.example.chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22324164304-b4nac8pud8v6jg74abve8d8om8tftrb1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgYBVzM8JOA2ea7nizIgdPEkOplUbVgU0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22324164304-b4nac8pud8v6jg74abve8d8om8tftrb1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
